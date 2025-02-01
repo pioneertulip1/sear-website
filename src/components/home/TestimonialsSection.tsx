@@ -22,7 +22,7 @@ export function TestimonialsSection() {
         {/* Section Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Trusted by <span className="heading-decoration">Minecraft Communities</span>
+            Trusted by <span className="heading-decoration">Real Communities</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Don't just take our word for it. Here's what our customers have to say.
@@ -71,7 +71,7 @@ export function TestimonialsSection() {
         {/* Trust Indicators */}
         <div className="mt-16 text-center">
           <p className="text-sm text-muted-foreground">
-            Join hundreds of satisfied customers who trust Sear Hosting for their Minecraft servers
+            Join dozens of satisfied customers who trust Sear Hosting for their Minecraft servers
           </p>
         </div>
       </div>

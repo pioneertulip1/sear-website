@@ -24,7 +24,7 @@ export function CtaSection() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-            <Button size="lg" className="gradient-bg gap-2">
+            <Button size="lg" className="bg-accent hover:bg-accent/90 text-foreground gap-2">
               Get Started Now
               <ArrowRight className="h-5 w-5" />
             </Button>
@@ -34,7 +34,7 @@ export function CtaSection() {
           </div>
 
           {/* Trust Badges */}
-          <div className="pt-8 grid grid-cols-2 md:grid-cols-3 gap-6 text-center">
+          <div className="pt-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
             <div>
               <p className="font-semibold text-foreground">Instant Setup</p>
               <p className="text-sm text-muted-foreground">Server ready in minutes</p>
@@ -42,10 +42,6 @@ export function CtaSection() {
             <div>
               <p className="font-semibold text-foreground">24/7 Support</p>
               <p className="text-sm text-muted-foreground">Always here to help</p>
-            </div>
-            <div className="col-span-2 md:col-span-1">
-              <p className="font-semibold text-foreground">Money-Back Guarantee</p>
-              <p className="text-sm text-muted-foreground">30-day guarantee</p>
             </div>
           </div>
         </div>

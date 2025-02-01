@@ -31,7 +31,7 @@ export function HeroSection() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-8">
-            <Button size="lg" className="gradient-bg">
+            <Button size="lg" className="bg-accent hover:bg-accent/90 text-foreground">
               Get Started
             </Button>
             <Button size="lg" variant="outline" className="gap-2">
@@ -43,7 +43,7 @@ export function HeroSection() {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mt-16">
             <div className="space-y-2">
-              <p className="text-3xl font-bold text-primary">99.9%</p>
+              <p className="text-3xl font-bold text-primary">99%</p>
               <p className="text-sm text-muted-foreground">Uptime Guaranteed</p>
             </div>
             <div className="space-y-2">

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -19,9 +20,16 @@ export function MainNav() {
     <nav className="border-b border-secondary/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full">
       <div className="container-custom flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
-          <span className="font-bold text-2xl text-primary">Sear</span>
-          <span className="text-2xl text-foreground">Hosting</span>
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/searlogo-nobg.png"
+            alt="Sear"
+            width={90}
+            height={30}
+            className="h-7 w-auto"
+            priority
+          />
+          <span className="text-xl text-foreground font-medium">Hosting</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -37,7 +45,7 @@ export function MainNav() {
               </Link>
             ))}
           </div>
-          <Button className="gradient-bg">Get Started</Button>
+          <Button className="bg-accent hover:bg-accent/90 text-foreground">Get Started</Button>
         </div>
 
         {/* Mobile Navigation */}
@@ -59,7 +67,7 @@ export function MainNav() {
                   {link.label}
                 </Link>
               ))}
-              <Button className="gradient-bg w-full">Get Started</Button>
+              <Button className="bg-accent hover:bg-accent/90 text-foreground w-full">Get Started</Button>
             </div>
           </SheetContent>
         </Sheet>

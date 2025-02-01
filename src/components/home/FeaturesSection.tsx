@@ -8,7 +8,7 @@ const features = [
   },
   {
     title: "Get What You Pay For",
-    description: "What you buy should be yours. Sear Hosting promises 99.9% uptime and a performance guarantee.",
+    description: "What you buy should be yours. Sear Hosting promises 99% uptime and a performance guarantee.",
     icon: Shield,
   },
   {
@@ -59,7 +59,7 @@ export function FeaturesSection() {
         {/* Additional Info */}
         <div className="mt-16 text-center">
           <p className="text-sm text-muted-foreground">
-            Our infrastructure is continuously monitored and upgraded to ensure optimal performance
+            Our infrastructure is continuously monitored to ensure optimal performance
           </p>
         </div>
       </div>
