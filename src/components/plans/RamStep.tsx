@@ -6,7 +6,7 @@ import { StepProps, RAM_OPTIONS } from './types'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 export function RamStep({ state, onUpdate, onNext, onBack }: StepProps) {
-  const ramOptions = (state.region === 'us-east' || state.planType === 'budget+')
+  const ramOptions = ((state.region === 'us-east' && state.planType === 'budget') || state.planType === 'budget+')
     ? RAM_OPTIONS.BUDGET_PLUS_AND_US
     : RAM_OPTIONS.BUDGET_IN_SG;
 
@@ -45,10 +45,6 @@ export function RamStep({ state, onUpdate, onNext, onBack }: StepProps) {
             </div>
           </CardContent>
         </Card>
-
-        <div className="text-sm text-muted-foreground mt-2">
-          Select the amount of RAM for your server. More RAM allows for better performance and multitasking capabilities.
-        </div>
       </div>
 
       <div className="flex justify-between gap-4">

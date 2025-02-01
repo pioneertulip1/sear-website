@@ -18,6 +18,21 @@ export function PlanStep({ state, onUpdate, onNext, onBack }: StepProps) {
     }
   }
 
+  const getBudgetSpecs = () => {
+    if (state.region === 'us-east') {
+      return {
+        cpu: 'Ryzen 9 5900x',
+        cores: '4 Shared vCores',
+        storage: '50GB NVMe SSD'
+      }
+    }
+    return {
+      cpu: 'Ampere® Altra® @ 3.0 GHz',
+      cores: '2 Shared Logical Cores',
+      storage: '25GB NVMe SSD Storage'
+    }
+  }
+
   const plans: Record<PlanType, {
     label: string;
     specs: {
@@ -27,12 +42,8 @@ export function PlanStep({ state, onUpdate, onNext, onBack }: StepProps) {
     };
   }> = {
     'budget': {
-      label: 'Budget',
-      specs: {
-        cpu: 'Ampere® Altra® @ 3.0 GHz',
-        cores: '2 Shared Logical Cores',
-        storage: '25GB NVMe SSD Storage'
-      }
+      label: state.region === 'us-east' ? 'Budget (US)' : 'Budget',
+      specs: getBudgetSpecs()
     },
     'budget+': {
       label: 'Budget+',
