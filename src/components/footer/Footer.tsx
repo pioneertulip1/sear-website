@@ -26,15 +26,20 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
           {/* Brand */}
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2">
-              <Image
-                src="/searlogo-nobg.png"
-                alt="Sear"
-                width={100}
-                height={33}
-                className="h-8 w-auto"
-              />
-              <span className="text-lg text-foreground font-medium">Hosting</span>
+            <Link href="/" className="flex items-center">
+              <div className="flex items-center">
+                <Image
+                  src="/searlogo-nobg.svg"
+                  alt="S"
+                  width={40}
+                  height={40}
+                  className="h-9 w-auto"
+                />
+                <span className="text-xl font-medium">
+                  <span className="text-[#5e008d]">ear</span>{" "}
+                  <span className="text-foreground">Hosting</span>
+                </span>
+              </div>
             </Link>
             <p className="text-sm text-muted-foreground">
               Next-generation Minecraft hosting with undeniable savings and reliability.

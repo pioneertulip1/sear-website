@@ -20,16 +20,21 @@ export function MainNav() {
     <nav className="border-b border-secondary/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full">
       <div className="container-custom flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/searlogo-nobg.png"
-            alt="Sear"
-            width={90}
-            height={30}
-            className="h-7 w-auto"
-            priority
-          />
-          <span className="text-xl text-foreground font-medium">Hosting</span>
+        <Link href="/" className="flex items-center">
+          <div className="flex items-center">
+            <Image
+              src="/searlogo-nobg.svg"
+              alt="S"
+              width={35}
+              height={35}
+              className="h-8 w-auto"
+              priority
+            />
+            <span className="text-xl font-medium">
+              <span className="text-[#5e008d]">ear</span>{" "}
+              <span className="text-foreground">Hosting</span>
+            </span>
+          </div>
         </Link>
 
         {/* Desktop Navigation */}
