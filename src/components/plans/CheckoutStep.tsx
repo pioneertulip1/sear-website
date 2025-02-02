@@ -39,10 +39,6 @@ export function CheckoutStep({ state, onBack }: StepProps) {
                 {state.billingPeriod === 'monthly' ? 'Monthly' : 'Quarterly (10% off)'}
               </div>
             </div>
-            <div>
-              <div className="text-sm text-muted-foreground">Currency</div>
-              <div className="font-medium">{state.currency}</div>
-            </div>
           </div>
 
           {!isValid && (

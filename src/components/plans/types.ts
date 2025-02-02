@@ -208,7 +208,187 @@ export const CHECKOUT_LINKS: Partial<CheckoutLinksStructure> = {
     budget: {
       '2': {
         monthly: 'https://billing.sear.host/checkout/config/7',
-        quarterly: 'https://billing.sear.host/checkout/config/7?billing=quarterly'
+        quarterly: 'https://billing.sear.host/checkout/config/7?billing_cycle=quarterly'
+      },
+      '3': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=11&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=11&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146?billing_cycle=quarterly'
+      },
+      '4': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=12&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=12&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146?billing_cycle=quarterly'
+      },
+      '5': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=13&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=13&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146&billing_cycle=quarterly'
+      },
+      '6': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=14&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=14&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146?billing_cycle=quarterly'
+      },
+      '7': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=15&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=15&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146?billing_cycle=quarterly'
+      },
+      '8': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=16&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=16&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146?billing_cycle=quarterly'
+      },
+      '10': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=18&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=18&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146?billing_cycle=quarterly'
+      },
+      '12': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=38&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=38&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146?billing_cycle=quarterly'
+      },
+      '16': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=39&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=39&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146?billing_cycle=quarterly'
+      },
+      '20': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=40&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=40&config[18]=55&config[19]=58&config[24]=74&config[39]=138&config[41]=146?billing_cycle=quarterly'
+      }
+    },
+    'budget+': {
+      '4': {
+        monthly: 'https://billing.sear.host/checkout/config/11',
+        quarterly: 'https://billing.sear.host/checkout/config/11?billing_cycle=quarterly'
+      },
+      '6': {
+        monthly: 'https://billing.sear.host/checkout/config/11?config[36]=122&config[37]=128&config[38]=132&config[40]=143&config[42]=152&config[43]=154',
+        quarterly: 'https://billing.sear.host/checkout/config/11?config[36]=122&config[37]=128&config[38]=132&config[40]=143&config[42]=152&config[43]=154?billing_cycle=quarterly'
+      },
+      '8': {
+        monthly: 'https://billing.sear.host/checkout/config/11?config[36]=123&config[37]=128&config[38]=132&config[40]=143&config[42]=152&config[43]=154',
+        quarterly: 'https://billing.sear.host/checkout/config/11?config[36]=123&config[37]=128&config[38]=132&config[40]=143&config[42]=152&config[43]=154?billing_cycle=quarterly'
+      },
+      '10': {
+        monthly: 'https://billing.sear.host/checkout/config/11?config[36]=124&config[37]=128&config[38]=132&config[40]=143&config[42]=152&config[43]=154',
+        quarterly: 'https://billing.sear.host/checkout/config/11?config[36]=124&config[37]=128&config[38]=132&config[40]=143&config[42]=152&config[43]=154?billing_cycle=quarterly'
+      },
+      '12': {
+        monthly: 'https://billing.sear.host/checkout/config/11?config[36]=125&config[37]=128&config[38]=132&config[40]=143&config[42]=152&config[43]=154',
+        quarterly: 'https://billing.sear.host/checkout/config/11?config[36]=125&config[37]=128&config[38]=132&config[40]=143&config[42]=152&config[43]=154?billing_cycle=quarterly'
+      },
+      '16': {
+        monthly: 'https://billing.sear.host/checkout/config/11?config[36]=126&config[37]=128&config[38]=132&config[40]=143&config[42]=152&config[43]=154',
+        quarterly: 'https://billing.sear.host/checkout/config/11?config[36]=126&config[37]=128&config[38]=132&config[40]=143&config[42]=152&config[43]=154?billing_cycle=quarterly'
+      },
+      '20': {
+        monthly: 'https://billing.sear.host/checkout/config/11?config[36]=127&config[37]=128&config[38]=132&config[40]=143&config[42]=152&config[43]=154',
+        quarterly: 'https://billing.sear.host/checkout/config/11?config[36]=127&config[37]=128&config[38]=132&config[40]=143&config[42]=152&config[43]=154?billing_cycle=quarterly'
+      }
+    }
+  },
+  singapore: {
+    budget: {
+      '2': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=10&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=11&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146?billing_cycle=quarterly'
+      },
+      '3': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=11&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=11&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146'
+      },
+      '4': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=12&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=12&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146?billing_cycle=quarterly'
+      },
+      '5': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=13&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=13&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146?billing_cycle=quarterly'
+      },
+      '6': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=14&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=14&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146?billing_cycle=quarterly'
+      },
+      '7': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=15&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=15&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146?billing_cycle=quarterly'
+      },
+      '8': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=16&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=16&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146?billing_cycle=quarterly'
+      },
+      '10': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=18&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=18&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146?billing_cycle=quarterly'
+      },
+      '12': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=38&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=38&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146?billing_cycle=quarterly'
+      },
+      '16': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=39&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=39&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146?billing_cycle=quarterly'
+      },
+      '20': {
+        monthly: 'https://billing.sear.host/checkout/config/7?config[10]=40&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146',
+        quarterly: 'https://billing.sear.host/checkout/config/7?config[10]=40&config[18]=55&config[19]=58&config[24]=74&config[39]=140&config[41]=146?billing_cycle=quarterly'
+      }
+    },
+    'budget+': {
+      '4': {
+        monthly: 'https://billing.sear.host/checkout/config/11?config[36]=121&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154',
+        quarterly: 'https://billing.sear.host/checkout/config/11?config[36]=121&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154?billing_cycle=quarterly'
+      },
+      '6': {
+        monthly: 'https://billing.sear.host/checkout/config/11?config[36]=122&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154',
+        quarterly: 'https://billing.sear.host/checkout/config/11?config[36]=122&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154?billing_cycle=quarterly'
+      },
+      '8': {
+        monthly: 'https://billing.sear.host/checkout/config/11?config[36]=123&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154',
+        quarterly: 'https://billing.sear.host/checkout/config/11?config[36]=123&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154?billing_cycle=quarterly'
+      },
+      '10': {
+        monthly: 'https://billing.sear.host/checkout/config/11?config[36]=124&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154',
+        quarterly: 'https://billing.sear.host/checkout/config/11?config[36]=124&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154?billing_cycle=quarterly'
+      },
+      '12': {
+        monthly: 'https://billing.sear.host/checkout/config/11?config[36]=125&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154',
+        quarterly: 'https://billing.sear.host/checkout/config/11?config[36]=125&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154?billing_cycle=quarterly'
+      },
+      '16': {
+        monthly: 'https://billing.sear.host/checkout/config/11?config[36]=126&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154',
+        quarterly: 'https://billing.sear.host/checkout/config/11?config[36]=126&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154?billing_cycle=quarterly'
+      },
+      '20': {
+        monthly: 'https://billing.sear.host/checkout/config/11?config[36]=127&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154',
+        quarterly: 'https://billing.sear.host/checkout/config/11?config[36]=127&config[37]=128&config[38]=132&config[40]=145&config[42]=152&config[43]=154?billing_cycle=quarterly'
+      }
+    }
+  },
+  'us-east': {
+    budget: {
+      '4': {
+        monthly: 'https://billing.sear.host/checkout/config/12',
+        quarterly: 'https://billing.sear.host/checkout/config/12?billing_cycle=quarterly'
+      },
+      '6': {
+        monthly: 'https://billing.sear.host/checkout/config/12?config[44]=161&config[45]=168',
+        quarterly: 'https://billing.sear.host/checkout/config/12?config[44]=161&config[45]=168?billing_cycle=quarterly'
+      },
+      '8': {
+        monthly: 'https://billing.sear.host/checkout/config/12?config[44]=162&config[45]=168',
+        quarterly: 'https://billing.sear.host/checkout/config/12?config[44]=162&config[45]=168?billing_cycle=quarterly'
+      },
+      '10': {
+        monthly: 'https://billing.sear.host/checkout/config/12?config[44]=163&config[45]=168',
+        quarterly: 'https://billing.sear.host/checkout/config/12?config[44]=163&config[45]=168?billing_cycle=quarterly'
+      },
+      '12': {
+        monthly: 'https://billing.sear.host/checkout/config/12?config[44]=164&config[45]=168',
+        quarterly: 'https://billing.sear.host/checkout/config/12?config[44]=164&config[45]=168?billing_cycle=quarterly'
+      },
+      '16': {
+        monthly: 'https://billing.sear.host/checkout/config/12?config[44]=165&config[45]=168',
+        quarterly: 'https://billing.sear.host/checkout/config/12?config[44]=165&config[45]=168?billing_cycle=quarterly'
+      },
+      '20': {
+        monthly: 'https://billing.sear.host/checkout/config/12?config[44]=166&config[45]=168',
+        quarterly: 'https://billing.sear.host/checkout/config/12?config[44]=166&config[45]=168?billing_cycle=quarterly'
       }
     }
   }
