@@ -1,3 +1,4 @@
+// Basic types
 export type Region = 'india' | 'singapore' | 'us-east'
 export type PlanType = 'budget' | 'budget+'
 export type RAM = '2' | '3' | '4' | '5' | '6' | '7' | '8' | '10' | '12' | '16' | '20'
@@ -5,7 +6,29 @@ export type Currency = 'USD' | 'PHP' | 'INR'
 export type BillingPeriod = 'monthly' | 'quarterly'
 export type FormStep = 'region' | 'plan' | 'ram' | 'billing' | 'checkout'
 
-// Plan specifications by region
+// Complex types
+export interface FormState {
+  region: Region
+  planType: PlanType
+  ram: RAM
+  billingPeriod: BillingPeriod
+}
+
+export interface StepProps {
+  state: FormState
+  onUpdate: (updates: Partial<FormState>) => void
+  onNext: () => void
+  onBack?: () => void
+  isValid?: boolean
+  availableOptions?: unknown
+}
+
+export interface StepValidation {
+  canProceed: (state: FormState) => boolean
+  getAvailableOptions: (state: FormState) => unknown
+  validateUpdate: (state: FormState, update: Partial<FormState>) => boolean
+}
+
 export type PlanSpecs = {
   cpu: string
   cores: string
@@ -14,12 +37,29 @@ export type PlanSpecs = {
 
 type RegionPlanSpecs = {
   [R in Region]: {
-    [P in PlanType]?: {
-      cpu: string;
-      cores: string;
-      storage: string;
-    };
+    [P in PlanType]?: PlanSpecs;
   };
+};
+
+export type PricingStructure = {
+  [R in Region]: {
+    [P in PlanType]?: number;
+  };
+};
+
+// Constants
+export const PRICING_PER_GB: PricingStructure = {
+  'india': {
+    'budget': 1.5,
+    'budget+': 2.0
+  },
+  'singapore': {
+    'budget': 1.5,
+    'budget+': 2.0
+  },
+  'us-east': {
+    'budget': 0.75
+  }
 };
 
 export const PLAN_SPECS: RegionPlanSpecs = {
@@ -392,6 +432,17 @@ export const CHECKOUT_LINKS: Partial<CheckoutLinksStructure> = {
       }
     }
   }
+}
+
+// Utility functions
+export const calculatePrice = (state: FormState): number => {
+  const pricePerGB = PRICING_PER_GB[state.region]?.[state.planType] || 0
+  const basePrice = pricePerGB * Number(state.ram)
+  return state.billingPeriod === 'quarterly' ? basePrice * 0.9 : basePrice
+}
+
+export const formatPrice = (price: number, period?: 'month' | 'gb'): string => {
+  return `$${price.toFixed(2)}${period ? `/${period}` : ''}`
 }
 
 export interface CheckoutLinkParams {

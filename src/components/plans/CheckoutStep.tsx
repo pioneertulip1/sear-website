@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { StepProps, getCheckoutLink, StepValidators } from './types'
+import { StepProps, getCheckoutLink, StepValidators, calculatePrice, formatPrice } from './types'
 import { ArrowLeft, ExternalLink, AlertTriangle } from 'lucide-react'
 
 export function CheckoutStep({ state, onBack }: StepProps) {
@@ -20,7 +20,7 @@ export function CheckoutStep({ state, onBack }: StepProps) {
       
       <Card>
         <CardContent className="p-6 space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 mb-6">
             <div>
               <div className="text-sm text-muted-foreground">Region</div>
               <div className="font-medium capitalize">{state.region.replace('-', ' ')}</div>
@@ -38,6 +38,13 @@ export function CheckoutStep({ state, onBack }: StepProps) {
               <div className="font-medium">
                 {state.billingPeriod === 'monthly' ? 'Monthly' : 'Quarterly (10% off)'}
               </div>
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center border-t pt-4">
+            <div className="text-lg font-medium">Total Price</div>
+            <div className="text-2xl font-semibold">
+              {formatPrice(calculatePrice(state), 'month')}
             </div>
           </div>
 

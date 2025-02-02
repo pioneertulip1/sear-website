@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { StepProps, BillingPeriod, StepValidators } from './types'
+import { StepProps, BillingPeriod, StepValidators, calculatePrice, formatPrice } from './types'
 import { ArrowLeft, ArrowRight, AlertTriangle } from 'lucide-react'
 
 interface BillingOptions {
@@ -62,15 +62,20 @@ export function BillingStep({ state, onUpdate, onNext, onBack, isValid = false, 
       <Card>
         <CardContent className="p-4">
           <div className="flex justify-between items-center">
-            <div className="space-y-1">
-              <div className="font-medium">
-                {state.planType.charAt(0).toUpperCase() + state.planType.slice(1)} Plan - {state.region.replace('-', ' ')}
+            <div className="flex justify-between items-start w-full">
+              <div className="space-y-1">
+                <div className="font-medium">
+                  {state.planType.charAt(0).toUpperCase() + state.planType.slice(1)} Plan - {state.region.replace('-', ' ')}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  {state.ram}GB RAM
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  {state.billingPeriod === 'monthly' ? 'Monthly billing' : 'Quarterly billing (10% off)'}
+                </div>
               </div>
-              <div className="text-sm text-muted-foreground">
-                {state.ram}GB RAM
-              </div>
-              <div className="text-sm text-muted-foreground">
-                {state.billingPeriod === 'monthly' ? 'Monthly billing' : 'Quarterly billing (10% off)'}
+              <div className="text-xl font-semibold">
+                {formatPrice(calculatePrice(state), 'month')}
               </div>
             </div>
           </div>

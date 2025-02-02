@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { StepProps, PlanType, PLAN_SPECS, StepValidators } from './types'
+import { StepProps, PlanType, PLAN_SPECS, StepValidators, PRICING_PER_GB, formatPrice } from './types'
 import { ArrowLeft, ArrowRight, AlertTriangle } from 'lucide-react'
 
 type PlanInfo = {
@@ -64,18 +64,23 @@ export function PlanStep({ state, onUpdate, onNext, onBack, isValid = false, ava
               }`}
             >
               <CardContent className="p-4">
-                <div className="flex items-center space-x-4">
-                  <RadioGroupItem value={type} id={type} />
-                  <Label htmlFor={type} className="flex-1 cursor-pointer space-y-2">
-                    <div className="font-medium text-lg">
-                      {getPlanLabel(type)}
-                    </div>
-                    <div className="space-y-1 text-sm text-muted-foreground">
-                      <p>{specs.cpu}</p>
-                      <p>{specs.cores}</p>
-                      <p>{specs.storage}</p>
-                    </div>
-                  </Label>
+                <div className="flex flex-col md:flex-row md:items-center gap-4">
+                  <div className="flex items-center flex-1 space-x-4">
+                    <RadioGroupItem value={type} id={type} />
+                    <Label htmlFor={type} className="flex-1 cursor-pointer space-y-2">
+                      <div className="font-medium text-lg">
+                        {getPlanLabel(type)}
+                      </div>
+                      <div className="space-y-1 text-sm text-muted-foreground">
+                        <p>{specs.cpu}</p>
+                        <p>{specs.cores}</p>
+                        <p>{specs.storage}</p>
+                      </div>
+                    </Label>
+                  </div>
+                  <div className="text-right md:min-w-[120px] text-lg font-medium">
+                    {formatPrice(PRICING_PER_GB[state.region]?.[type] || 0, 'gb')}
+                  </div>
                 </div>
               </CardContent>
             </Card>

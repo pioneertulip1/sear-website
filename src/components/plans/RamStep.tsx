@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { StepProps, RAM, StepValidators } from './types'
+import { StepProps, RAM, StepValidators, calculatePrice, formatPrice } from './types'
 import { ArrowLeft, ArrowRight, AlertTriangle } from 'lucide-react'
 
 export function RamStep({ state, onUpdate, onNext, onBack, isValid = false, availableOptions }: StepProps) {
@@ -26,9 +26,14 @@ export function RamStep({ state, onUpdate, onNext, onBack, isValid = false, avai
       <h2 className="text-2xl font-semibold">Select RAM Configuration</h2>
       
       <div className="space-y-4">
-        <div className="flex justify-between items-baseline">
+        <div className="flex flex-col sm:flex-row justify-between items-baseline gap-2">
           <Label>RAM Amount</Label>
-          <div className="text-2xl font-bold">{state.ram}GB</div>
+          <div className="flex items-baseline gap-4">
+            <div className="text-2xl font-bold">{state.ram}GB</div>
+            <div className="text-lg font-semibold text-muted-foreground">
+              {formatPrice(calculatePrice(state), 'month')}
+            </div>
+          </div>
         </div>
 
         <Card>

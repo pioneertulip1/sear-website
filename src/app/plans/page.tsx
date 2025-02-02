@@ -115,23 +115,25 @@ export default function PlansPage() {
   const availableOptions = StepValidators[step].getAvailableOptions(state)
 
   return (
-    <main className="container mx-auto py-10 min-h-screen">
-      <h1 className="text-4xl font-bold text-center mb-8">Choose Your Hosting Plan</h1>
-      
-      <Card className="max-w-3xl mx-auto">
-        <CardContent className="p-6">
-          <FormProgress currentStep={step} state={state} />
+    <main className="min-h-screen">
+      <div className="container px-4 sm:px-6 py-6 sm:py-10">
+        <h1 className="text-3xl sm:text-4xl font-bold text-center mb-6 sm:mb-8">Choose Your Hosting Plan</h1>
+        
+        <Card className="max-w-3xl mx-auto">
+          <CardContent className="p-4 sm:p-6">
+            <FormProgress currentStep={step} state={state} />
 
-          <StepComponent
-            state={state}
-            onUpdate={handleUpdateState}
-            onNext={handleNext}
-            onBack={step !== 'region' ? handleBack : undefined}
-            isValid={isValid}
-            availableOptions={availableOptions}
-          />
-        </CardContent>
-      </Card>
+            <StepComponent
+              state={state}
+              onUpdate={handleUpdateState}
+              onNext={handleNext}
+              onBack={step !== 'region' ? handleBack : undefined}
+              isValid={isValid}
+              availableOptions={availableOptions}
+            />
+          </CardContent>
+        </Card>
+      </div>
     </main>
   )
 }

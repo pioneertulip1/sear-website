@@ -67,7 +67,7 @@ export function FormProgress({ currentStep, state }: FormProgressProps) {
   }
 
   return (
-    <div className="flex justify-between mb-8">
+    <div className="flex flex-wrap md:flex-nowrap justify-between mb-8 gap-y-4">
       {STEPS.map(({ name, step }, index) => {
         const status = getStepStatus(step, index)
         const styles = getStepStyles(status)
@@ -83,11 +83,16 @@ export function FormProgress({ currentStep, state }: FormProgressProps) {
                 index + 1
               )}
             </div>
-            <div className={`ml-2 ${styles.text}`}>
-              {name}
+            <div className="hidden sm:block" >
+              <span className={`ml-2 ${styles.text}`}>{name}</span>
+            </div>
+            <div className="block sm:hidden">
+              <span className={`ml-2 ${styles.text}`}>
+                {name.length > 4 ? name.substring(0, 4) + '...' : name}
+              </span>
             </div>
             {index < STEPS.length - 1 && (
-              <div className={`h-px w-12 mx-2 ${
+              <div className={`h-px w-6 sm:w-12 mx-1 sm:mx-2 ${
                 status === 'completed' ? 'bg-primary' : 'bg-border'
               }`} />
             )}
