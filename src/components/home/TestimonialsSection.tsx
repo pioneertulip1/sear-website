@@ -25,7 +25,7 @@ export function TestimonialsSection() {
             Trusted by <span className="heading-decoration">Real Communities</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Don't just take our word for it. Here's what our customers have to say.
+            Don&apos;t just take our word for it. Here&apos;s what our customers have to say.
           </p>
         </div>
 
@@ -46,7 +46,7 @@ export function TestimonialsSection() {
               {/* Quote Content */}
               <div className="pt-4">
                 <p className="text-foreground/90 mb-4">
-                  "{testimonial.quote}"
+                  &quot;{testimonial.quote}&quot;
                 </p>
                 <div className="flex items-center space-x-3">
                   <div className="h-8 w-8 rounded-full gradient-bg flex items-center justify-center">
