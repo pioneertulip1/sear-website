@@ -1,100 +1,105 @@
+import * as React from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
-import { StepProps, PlanType } from './types'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { StepProps, PlanType, PLAN_SPECS, StepValidators } from './types'
+import { ArrowLeft, ArrowRight, AlertTriangle } from 'lucide-react'
 
-export function PlanStep({ state, onUpdate, onNext, onBack }: StepProps) {
-  const getAvailablePlanTypes = (): PlanType[] => {
-    switch (state.region) {
-      case 'india':
-      case 'singapore':
-        return ['budget', 'budget+']
-      case 'us-east':
-        return ['budget']
-      default:
-        return ['budget']
-    }
-  }
+type PlanInfo = {
+  type: PlanType
+  baseLabel: string
+}
 
-  const getBudgetSpecs = () => {
-    if (state.region === 'us-east') {
-      return {
-        cpu: 'Ryzen 9 5900x',
-        cores: '4 Shared vCores',
-        storage: '50GB NVMe SSD'
-      }
-    }
-    return {
-      cpu: 'Ampere® Altra® @ 3.0 GHz',
-      cores: '2 Shared Logical Cores',
-      storage: '25GB NVMe SSD Storage'
-    }
-  }
+const PLAN_INFO: PlanInfo[] = [
+  { type: 'budget', baseLabel: 'Budget' },
+  { type: 'budget+', baseLabel: 'Budget+' }
+] as const
 
-  const plans: Record<PlanType, {
-    label: string;
-    specs: {
-      cpu: string;
-      cores: string;
-      storage: string;
-    };
-  }> = {
-    'budget': {
-      label: state.region === 'us-east' ? 'Budget (US)' : 'Budget',
-      specs: getBudgetSpecs()
-    },
-    'budget+': {
-      label: 'Budget+',
-      specs: {
-        cpu: 'AMD EPYC 7J13',
-        cores: '2 Shared vCores',
-        storage: '25GB NVMe SSD Storage'
-      }
-    }
-  }
+export function PlanStep({ state, onUpdate, onNext, onBack, isValid = false, availableOptions }: StepProps) {
+  const availablePlans = (availableOptions as PlanType[]) || []
 
-  const availablePlans = getAvailablePlanTypes()
+  const getPlanLabel = React.useCallback((type: PlanType) => {
+    const info = PLAN_INFO.find(p => p.type === type)
+    if (!info) return type
+    return type === 'budget' && state.region === 'us-east' 
+      ? `${info.baseLabel} (US)` 
+      : info.baseLabel
+  }, [state.region])
+
+  const handlePlanChange = React.useCallback((value: string) => {
+    const planType = value as PlanType
+    if (StepValidators.plan.validateUpdate(state, { planType })) {
+      onUpdate({ planType })
+    }
+  }, [state, onUpdate])
+
+  const getSpecs = React.useCallback((type: PlanType) => {
+    const defaultSpecs = {
+      cpu: '-',
+      cores: '-',
+      storage: '-'
+    }
+    
+    return PLAN_SPECS[state.region]?.[type] ?? defaultSpecs
+  }, [state.region])
 
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-semibold">Select Your Plan Type</h2>
+      
       <RadioGroup
         value={state.planType}
-        onValueChange={(value) => {
-          const planType = value as PlanType
-          onUpdate({ planType })
-        }}
+        onValueChange={handlePlanChange}
         className="grid grid-cols-1 gap-4"
       >
-        {availablePlans.map((type) => (
-          <Card key={type} className={`cursor-pointer transition-colors ${
-            state.planType === type ? 'border-primary' : ''
-          }`}>
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-4">
-                <RadioGroupItem value={type} id={type} />
-                <Label htmlFor={type} className="flex-1 cursor-pointer space-y-2">
-                  <div className="font-medium text-lg">
-                    {plans[type].label}
-                  </div>
-                  <div className="space-y-1 text-sm text-muted-foreground">
-                    <p>{plans[type].specs.cpu}</p>
-                    <p>{plans[type].specs.cores}</p>
-                    <p>{plans[type].specs.storage}</p>
-                  </div>
-                </Label>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        {availablePlans.map((type) => {
+          const specs = getSpecs(type)
+          return (
+            <Card 
+              key={type} 
+              className={`cursor-pointer transition-colors ${
+                state.planType === type ? 'border-primary' : ''
+              }`}
+            >
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-4">
+                  <RadioGroupItem value={type} id={type} />
+                  <Label htmlFor={type} className="flex-1 cursor-pointer space-y-2">
+                    <div className="font-medium text-lg">
+                      {getPlanLabel(type)}
+                    </div>
+                    <div className="space-y-1 text-sm text-muted-foreground">
+                      <p>{specs.cpu}</p>
+                      <p>{specs.cores}</p>
+                      <p>{specs.storage}</p>
+                    </div>
+                  </Label>
+                </div>
+              </CardContent>
+            </Card>
+          )
+        })}
       </RadioGroup>
+
+      {!isValid && (
+        <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>
+            Please select a valid plan type for your region.
+          </AlertDescription>
+        </Alert>
+      )}
+
       <div className="flex justify-between gap-4">
         <Button variant="outline" onClick={onBack}>
           <ArrowLeft className="mr-2 h-4 w-4" /> Back
         </Button>
-        <Button onClick={onNext}>
+        <Button 
+          onClick={onNext}
+          disabled={!isValid}
+        >
           Continue to RAM Selection <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>

@@ -1,11 +1,45 @@
+import * as React from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { StepProps, Currency, BillingPeriod } from './types'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { StepProps, Currency, BillingPeriod, StepValidators } from './types'
+import { ArrowLeft, ArrowRight, AlertTriangle } from 'lucide-react'
 
-export function BillingStep({ state, onUpdate, onNext, onBack }: StepProps) {
+interface BillingOptions {
+  periods: readonly BillingPeriod[]
+  currencies: readonly Currency[]
+}
+
+const CURRENCY_SYMBOLS: Record<Currency, string> = {
+  USD: '$',
+  PHP: '₱',
+  INR: '₹'
+} as const
+
+const DEFAULT_OPTIONS: BillingOptions = {
+  periods: ['monthly', 'quarterly'] as const,
+  currencies: ['USD', 'PHP', 'INR'] as const
+}
+
+export function BillingStep({ state, onUpdate, onNext, onBack, isValid = false, availableOptions }: StepProps) {
+  const options = (availableOptions as BillingOptions) || DEFAULT_OPTIONS
+
+  const handleUpdateCurrency = React.useCallback((value: string) => {
+    const currency = value as Currency
+    if (StepValidators.billing.validateUpdate(state, { currency })) {
+      onUpdate({ currency })
+    }
+  }, [state, onUpdate])
+
+  const handleUpdateBillingPeriod = React.useCallback((value: string) => {
+    const billingPeriod = value as BillingPeriod
+    if (StepValidators.billing.validateUpdate(state, { billingPeriod })) {
+      onUpdate({ billingPeriod })
+    }
+  }, [state, onUpdate])
+
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-semibold">Choose Billing Options</h2>
@@ -15,15 +49,17 @@ export function BillingStep({ state, onUpdate, onNext, onBack }: StepProps) {
           <Label>Currency</Label>
           <Select 
             value={state.currency} 
-            onValueChange={(value: Currency) => onUpdate({ currency: value })}
+            onValueChange={handleUpdateCurrency}
           >
             <SelectTrigger>
-              <SelectValue />
+              <SelectValue placeholder="Select currency" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="USD">USD ($)</SelectItem>
-              <SelectItem value="PHP">PHP (₱)</SelectItem>
-              <SelectItem value="INR">INR (₹)</SelectItem>
+              {options.currencies.map(currency => (
+                <SelectItem key={currency} value={currency}>
+                  {currency} ({CURRENCY_SYMBOLS[currency]})
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -32,17 +68,29 @@ export function BillingStep({ state, onUpdate, onNext, onBack }: StepProps) {
           <Label>Billing Period</Label>
           <Select 
             value={state.billingPeriod} 
-            onValueChange={(value: BillingPeriod) => onUpdate({ billingPeriod: value })}
+            onValueChange={handleUpdateBillingPeriod}
           >
             <SelectTrigger>
-              <SelectValue />
+              <SelectValue placeholder="Select billing period" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="monthly">Monthly</SelectItem>
-              <SelectItem value="quarterly">Quarterly (10% off)</SelectItem>
+              {options.periods.map(period => (
+                <SelectItem key={period} value={period}>
+                  {period === 'monthly' ? 'Monthly' : 'Quarterly (10% off)'}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
+
+        {!isValid && (
+          <Alert variant="destructive">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertDescription>
+              Please select both currency and billing period to continue.
+            </AlertDescription>
+          </Alert>
+        )}
       </div>
 
       <Card>
@@ -55,6 +103,12 @@ export function BillingStep({ state, onUpdate, onNext, onBack }: StepProps) {
               <div className="text-sm text-muted-foreground">
                 {state.ram}GB RAM
               </div>
+              <div className="text-sm text-muted-foreground">
+                {state.billingPeriod === 'monthly' ? 'Monthly billing' : 'Quarterly billing (10% off)'}
+              </div>
+            </div>
+            <div className="font-medium">
+              {state.currency && CURRENCY_SYMBOLS[state.currency]}
             </div>
           </div>
         </CardContent>
@@ -64,7 +118,10 @@ export function BillingStep({ state, onUpdate, onNext, onBack }: StepProps) {
         <Button variant="outline" onClick={onBack}>
           <ArrowLeft className="mr-2 h-4 w-4" /> Back
         </Button>
-        <Button onClick={onNext}>
+        <Button 
+          onClick={onNext}
+          disabled={!isValid}
+        >
           Continue to Checkout <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>

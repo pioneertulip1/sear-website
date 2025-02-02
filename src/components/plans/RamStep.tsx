@@ -1,17 +1,26 @@
+import * as React from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
-import { StepProps, RAM_OPTIONS } from './types'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { StepProps, RAM, StepValidators } from './types'
+import { ArrowLeft, ArrowRight, AlertTriangle } from 'lucide-react'
 
-export function RamStep({ state, onUpdate, onNext, onBack }: StepProps) {
-  const ramOptions = ((state.region === 'us-east' && state.planType === 'budget') || state.planType === 'budget+')
-    ? RAM_OPTIONS.BUDGET_PLUS_AND_US
-    : RAM_OPTIONS.BUDGET_IN_SG;
+export function RamStep({ state, onUpdate, onNext, onBack, isValid = false, availableOptions }: StepProps) {
+  const ramOptions = React.useMemo(() => (availableOptions as RAM[]) || [], [availableOptions])
+  const currentRamIndex = ramOptions.indexOf(state.ram)
 
-  const currentRamIndex = ramOptions.indexOf(state.ram);
-  
+  const handleRamChange = React.useCallback((values: number[]) => {
+    const value = values[0]
+    if (value >= 0 && value < ramOptions.length) {
+      const newRam = ramOptions[value]
+      if (StepValidators.ram.validateUpdate(state, { ram: newRam })) {
+        onUpdate({ ram: newRam })
+      }
+    }
+  }, [ramOptions, state, onUpdate])
+
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-semibold">Select RAM Configuration</h2>
@@ -25,14 +34,12 @@ export function RamStep({ state, onUpdate, onNext, onBack }: StepProps) {
         <Card>
           <CardContent className="pt-6 px-6">
             <Slider
-              value={[currentRamIndex]}
-              max={ramOptions.length - 1}
+              value={currentRamIndex >= 0 ? [currentRamIndex] : [0]}
+              max={Math.max(0, ramOptions.length - 1)}
               step={1}
-              onValueChange={(value) => {
-                const newRam = ramOptions[value[0]];
-                onUpdate({ ram: newRam });
-              }}
+              onValueChange={handleRamChange}
               className="py-4"
+              disabled={ramOptions.length === 0}
             />
             
             <div className="flex justify-between text-xs text-muted-foreground mt-2">
@@ -45,13 +52,27 @@ export function RamStep({ state, onUpdate, onNext, onBack }: StepProps) {
             </div>
           </CardContent>
         </Card>
+
+        {!isValid && (
+          <Alert variant="destructive">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertDescription>
+              {ramOptions.length === 0
+                ? "No RAM options available for the selected plan."
+                : "Please select a valid RAM configuration."}
+            </AlertDescription>
+          </Alert>
+        )}
       </div>
 
       <div className="flex justify-between gap-4">
         <Button variant="outline" onClick={onBack}>
           <ArrowLeft className="mr-2 h-4 w-4" /> Back
         </Button>
-        <Button onClick={onNext}>
+        <Button 
+          onClick={onNext}
+          disabled={!isValid}
+        >
           Continue to Billing Options <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>

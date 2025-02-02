@@ -1,10 +1,18 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { StepProps, getCheckoutLink } from './types'
-import { ArrowLeft, ExternalLink } from 'lucide-react'
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { StepProps, getCheckoutLink, StepValidators } from './types'
+import { ArrowLeft, ExternalLink, AlertTriangle } from 'lucide-react'
 
 export function CheckoutStep({ state, onBack }: StepProps) {
-  const checkoutLink = getCheckoutLink(state.region, state.planType, state.ram)
+  const checkoutLink = getCheckoutLink({
+    region: state.region,
+    planType: state.planType,
+    ram: state.ram,
+    billingPeriod: state.billingPeriod
+  })
+
+  const isValid = StepValidators.checkout.canProceed(state)
 
   return (
     <div className="space-y-6">
@@ -36,6 +44,17 @@ export function CheckoutStep({ state, onBack }: StepProps) {
               <div className="font-medium">{state.currency}</div>
             </div>
           </div>
+
+          {!isValid && (
+            <Alert variant="destructive" className="mt-4">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertDescription>
+                {!checkoutLink 
+                  ? "Checkout link not available for the selected configuration." 
+                  : "Please complete all required information before proceeding."}
+              </AlertDescription>
+            </Alert>
+          )}
         </CardContent>
       </Card>
 
@@ -46,7 +65,7 @@ export function CheckoutStep({ state, onBack }: StepProps) {
         <Button 
           onClick={() => window.location.href = checkoutLink}
           className="w-full"
-          disabled={!checkoutLink}
+          disabled={!isValid}
         >
           Proceed to Checkout <ExternalLink className="ml-2 h-4 w-4" />
         </Button>
