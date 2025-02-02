@@ -93,7 +93,6 @@ export interface FormState {
   region: Region
   planType: PlanType
   ram: RAM
-  currency: Currency
   billingPeriod: BillingPeriod
 }
 
@@ -162,12 +161,11 @@ export const StepValidators: Record<FormStep, StepValidation> = {
       )
   },
   billing: {
-    canProceed: (state) => Boolean(state.billingPeriod && state.currency),
+    canProceed: (state) => Boolean(state.billingPeriod),
     getAvailableOptions: () => ({
-      periods: ['monthly', 'quarterly'] as const,
-      currencies: ['USD', 'PHP', 'INR'] as const
+      periods: ['monthly', 'quarterly'] as const
     }),
-    validateUpdate: () => true
+    validateUpdate: (_, update) => !update.billingPeriod || ['monthly', 'quarterly'].includes(update.billingPeriod)
   },
   checkout: {
     canProceed: (state) => Boolean(
@@ -175,7 +173,6 @@ export const StepValidators: Record<FormStep, StepValidation> = {
       state.planType &&
       state.ram &&
       state.billingPeriod &&
-      state.currency &&
       isValidPlanForRegion(state.region, state.planType) &&
       isValidRAMForPlan(state.region, state.planType, state.ram)
     ),

@@ -8,16 +8,15 @@ import { PlanStep } from '@/components/plans/PlanStep'
 import { RamStep } from '@/components/plans/RamStep'
 import { BillingStep } from '@/components/plans/BillingStep'
 import { CheckoutStep } from '@/components/plans/CheckoutStep'
-import { 
-  FormStep, 
-  FormState, 
+import {
+  FormStep,
+  FormState,
   StepValidators,
   getNextStep,
   StepProps,
   Region,
   PlanType,
   RAM,
-  Currency,
   BillingPeriod
 } from '@/components/plans/types'
 
@@ -36,25 +35,17 @@ function getInitialState(): FormState {
       region: 'india',
       planType: 'budget',
       ram: '4',
-      currency: 'USD',
       billingPeriod: 'monthly'
     }
   }
 
   const params = new URLSearchParams(window.location.search)
   
-  const region = params.get('region') as Region | null
-  const planType = params.get('plan') as PlanType | null
-  const ram = params.get('ram') as RAM | null
-  const currency = params.get('currency') as Currency | null
-  const billingPeriod = params.get('billing') as BillingPeriod | null
-
   return {
-    region: region || 'india',
-    planType: planType || 'budget',
-    ram: ram || '4',
-    currency: currency || 'USD',
-    billingPeriod: billingPeriod || 'monthly'
+    region: (params.get('region') as Region) || 'india',
+    planType: (params.get('plan') as PlanType) || 'budget',
+    ram: (params.get('ram') as RAM) || '4',
+    billingPeriod: (params.get('billing') as BillingPeriod) || 'monthly'
   }
 }
 
@@ -77,7 +68,6 @@ export default function PlansPage() {
     if (state.planType) params.set('plan', state.planType)
     if (state.ram) params.set('ram', state.ram)
     if (state.billingPeriod) params.set('billing', state.billingPeriod)
-    if (state.currency) params.set('currency', state.currency)
 
     window.history.replaceState(
       {},
