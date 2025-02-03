@@ -117,22 +117,24 @@ export default function PlansPage() {
   return (
     <main className="min-h-screen">
       <div className="container px-4 sm:px-6 py-6 sm:py-10">
-        <h1 className="text-3xl sm:text-4xl font-bold text-center mb-6 sm:mb-8">Choose Your Hosting Plan</h1>
-        
-        <Card className="max-w-3xl mx-auto">
-          <CardContent className="p-4 sm:p-6">
-            <FormProgress currentStep={step} state={state} />
-
-            <StepComponent
-              state={state}
-              onUpdate={handleUpdateState}
-              onNext={handleNext}
-              onBack={step !== 'region' ? handleBack : undefined}
-              isValid={isValid}
-              availableOptions={availableOptions}
-            />
-          </CardContent>
-        </Card>
+        <div className="flex flex-col items-center">
+          <h1 className="text-3xl sm:text-4xl font-bold text-center mb-6 sm:mb-8">
+            Choose Your Hosting Plan
+          </h1>
+          <Card className="inline-block min-w-[800px]">
+            <CardContent className="p-6 sm:p-8">
+              <FormProgress currentStep={step} state={state} />
+              <StepComponent
+                state={state}
+                onUpdate={handleUpdateState}
+                onNext={handleNext}
+                onBack={step !== 'region' ? handleBack : undefined}
+                isValid={isValid}
+                availableOptions={availableOptions}
+              />
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </main>
   )

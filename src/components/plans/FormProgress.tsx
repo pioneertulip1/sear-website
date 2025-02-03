@@ -73,23 +73,25 @@ export function FormProgress({ currentStep, state }: FormProgressProps) {
         const styles = getStepStyles(status)
 
         return (
-          <div key={step} className="flex items-center">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${styles.circle}`}>
-              {status === 'completed' ? (
-                <Check className="h-4 w-4" />
-              ) : status === 'invalid' ? (
-                <AlertCircle className="h-4 w-4" />
-              ) : (
-                index + 1
-              )}
-            </div>
-            <div className="hidden sm:block" >
-              <span className={`ml-2 ${styles.text}`}>{name}</span>
-            </div>
-            <div className="block sm:hidden">
-              <span className={`ml-2 ${styles.text}`}>
-                {name.length > 4 ? name.substring(0, 4) + '...' : name}
-              </span>
+          <div key={step} className="flex items-center min-w-fit">
+            <div className="flex items-center">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${styles.circle}`}>
+                {status === 'completed' ? (
+                  <Check className="h-4 w-4" />
+                ) : status === 'invalid' ? (
+                  <AlertCircle className="h-4 w-4" />
+                ) : (
+                  index + 1
+                )}
+              </div>
+              <div className="hidden sm:block" >
+                <span className={`ml-2 ${styles.text}`}>{name}</span>
+              </div>
+              <div className="block sm:hidden">
+                <span className={`ml-2 ${styles.text}`}>
+                  {name.length > 4 ? name.substring(0, 4) + '...' : name}
+                </span>
+              </div>
             </div>
             {index < STEPS.length - 1 && (
               <div className={`h-px w-6 sm:w-12 mx-1 sm:mx-2 ${
