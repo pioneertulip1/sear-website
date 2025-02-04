@@ -94,7 +94,7 @@ export function FormProgress({ currentStep, state }: FormProgressProps) {
               </div>
             </div>
             {index < STEPS.length - 1 && (
-              <div className={`h-px w-6 sm:w-12 mx-1 sm:mx-2 ${
+              <div className={`h-px w-4 sm:w-8 mx-1 sm:mx-2 ${
                 status === 'completed' ? 'bg-primary' : 'bg-border'
               }`} />
             )}

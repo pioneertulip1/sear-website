@@ -115,13 +115,13 @@ export default function PlansPage() {
   const availableOptions = StepValidators[step].getAvailableOptions(state)
 
   return (
-    <main className="min-h-screen">
-      <div className="container px-4 sm:px-6 py-6 sm:py-10">
+    <main className="min-h-screen flex items-center justify-center py-8">
+      <div className="container px-4 sm:px-6">
         <div className="flex flex-col items-center">
           <h1 className="text-3xl sm:text-4xl font-bold text-center mb-6 sm:mb-8">
             Choose Your Hosting Plan
           </h1>
-          <Card className="inline-block min-w-[800px]">
+          <Card className="inline-block w-full max-w-[800px]">
             <CardContent className="p-6 sm:p-8">
               <FormProgress currentStep={step} state={state} />
               <StepComponent
