@@ -31,13 +31,15 @@ export function usePing() {
 
     ws.onopen = () => {
       console.log(`Connected to ${host}`);
+      console.log(`WebSocket state after open: ${ws.readyState}`); // ADD THIS LINE
       const timestamp = Date.now();
       ws.send(timestamp.toString());
+      console.log(`Timestamp sent to ${host}: ${timestamp}`); // ADD THIS LINE
     };
 
     ws.onmessage = (event => {
-      try {
-        console.log("Received message:", event.data); // ADD THIS LINE
+     try {
+        console.log("Received message:", event.data); // ADD THIS LINE - already present
         const receivedTime = parseInt(event.data, 10);
         const pingTime = Date.now() - receivedTime;
 
@@ -49,6 +51,7 @@ export function usePing() {
     });
 
     ws.onerror = error => {
+      console.error(`WebSocket onerror event:`, error); // MODIFIED THIS LINE to log the error event
       console.error(`WebSocket error for ${host}:`, error);
       setPings(prev => ({ ...prev, [location]: -1 }));
     };
