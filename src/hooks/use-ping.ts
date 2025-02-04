@@ -30,7 +30,7 @@ export function usePing() {
       }
       const pingTime = Date.now() - receivedTime;
       setPings(prev => ({ ...prev, [location]: pingTime }));
-    } catch (error) {
+    } catch {
       setPings(prev => ({ ...prev, [location]: -1 }));
     }
   };
@@ -58,13 +58,13 @@ export function usePing() {
       const message = timestamp.toString();
       try {
         ws.send(message);
-      } catch (error) {
+      } catch {
       }
       pingInterval = window.setInterval(() => {
         const newTimestamp = Date.now();
         try {
           ws.send(newTimestamp.toString());
-        } catch (error) {
+        } catch {
         }
       }, 5000);
     };
@@ -73,7 +73,7 @@ export function usePing() {
       if (event.data instanceof Blob) {
         event.data.text().then((textData) => {
           processMessage(textData, host, location);
-        }).catch(error => {
+        }).catch(() => {
           setPings(prev => ({ ...prev, [location]: -1 }));
         });
       } else {
@@ -81,7 +81,7 @@ export function usePing() {
       }
     };
 
-    ws.onerror = error => {
+    ws.onerror = () => {
       setPings(prev => ({ ...prev, [location]: -1 }));
     };
 
@@ -105,6 +105,7 @@ export function usePing() {
       };
       
       const details = codes[event.code as keyof typeof codes] || "Unknown reason";
+      console.log(`WebSocket closed for ${location}: ${details}`);
       
       delete wsConnections.current[location];
       setPings(prev => ({ ...prev, [location]: -1 }));
