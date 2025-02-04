@@ -55,7 +55,7 @@ export function usePing() {
 
     let pingInterval: number; // Added to hold setInterval ID
 
-    const ws = new WebSocket(`wss://${host}:5999`);
+    const ws = new WebSocket(`wss://${host}`);
     wsConnections.current[location] = ws;
 
     // Log any security errors
