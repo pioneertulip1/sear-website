@@ -37,6 +37,7 @@ export function usePing() {
 
     ws.onmessage = (event => {
       try {
+        console.log("Received message:", event.data); // ADD THIS LINE
         const receivedTime = parseInt(event.data, 10);
         const pingTime = Date.now() - receivedTime;
 
