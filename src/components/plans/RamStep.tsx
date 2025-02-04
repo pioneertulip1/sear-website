@@ -27,7 +27,7 @@ export function RamStep({ state, onUpdate, onNext, onBack, isValid = false, avai
   }, [ramOptions, state, onUpdate])
 
   const handleSelectChange = React.useCallback((value: string) => {
-    const newRam = parseInt(value, 10) as RAM
+    const newRam = value as RAM
     if (StepValidators.ram.validateUpdate(state, { ram: newRam })) {
       onUpdate({ ram: newRam })
     }
