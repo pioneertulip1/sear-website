@@ -70,7 +70,9 @@ export function CheckoutStep({ state, onBack }: StepProps) {
           className="w-full"
           disabled={!isValid}
         >
-          Proceed to Checkout <ExternalLink className="ml-2 h-4 w-4" />
+          <span className="hidden md:inline">Proceed to Checkout</span>
+          <span className="md:hidden">Checkout</span>
+          <ExternalLink className="ml-2 h-4 w-4" />
         </Button>
       </div>
     </div>

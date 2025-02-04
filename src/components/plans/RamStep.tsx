@@ -114,7 +114,9 @@ export function RamStep({ state, onUpdate, onNext, onBack, isValid = false, avai
           disabled={!isValid}
           className="w-full sm:w-auto"
         >
-          Continue to Billing Options <ArrowRight className="ml-2 h-4 w-4" />
+          <span className="hidden md:inline">Continue to Billing Options</span>
+          <span className="md:hidden">Continue</span>
+          <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>
     </div>

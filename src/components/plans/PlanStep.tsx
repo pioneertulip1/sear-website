@@ -105,7 +105,9 @@ export function PlanStep({ state, onUpdate, onNext, onBack, isValid = false, ava
           onClick={onNext}
           disabled={!isValid}
         >
-          Continue to RAM Selection <ArrowRight className="ml-2 h-4 w-4" />
+          <span className="hidden md:inline">Continue to RAM Selection</span>
+          <span className="md:hidden">Continue</span>
+          <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>
     </div>

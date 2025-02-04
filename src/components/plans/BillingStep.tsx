@@ -90,7 +90,9 @@ export function BillingStep({ state, onUpdate, onNext, onBack, isValid = false, 
           onClick={onNext}
           disabled={!isValid}
         >
-          Continue to Checkout <ArrowRight className="ml-2 h-4 w-4" />
+          <span className="hidden md:inline">Continue to Checkout</span>
+          <span className="md:hidden">Continue</span>
+          <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>
     </div>

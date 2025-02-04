@@ -91,7 +91,9 @@ export function RegionStep({ state, onUpdate, onNext, isValid = false, available
         onClick={onNext}
         disabled={!isValid}
       >
-        Continue to Plan Selection <ArrowRight className="ml-2 h-4 w-4" />
+        <span className="hidden md:inline">Continue to Plan Selection</span>
+        <span className="md:hidden">Continue</span>
+        <ArrowRight className="ml-2 h-4 w-4" />
       </Button>
     </div>
   )

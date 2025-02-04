@@ -66,41 +66,63 @@ export function FormProgress({ currentStep, state }: FormProgressProps) {
     }
   }
 
-  return (
-    <div className="flex flex-wrap md:flex-nowrap justify-between mb-8 gap-y-4">
-      {STEPS.map(({ name, step }, index) => {
-        const status = getStepStatus(step, index)
-        const styles = getStepStyles(status)
+  const StepIndicator = ({ step, index, showName = true }: { 
+    step: FormStep 
+    index: number
+    showName?: boolean
+  }) => {
+    const status = getStepStatus(step, index)
+    const styles = getStepStyles(status)
+    const stepInfo = STEPS.find(s => s.step === step)
+    if (!stepInfo) return null
 
-        return (
-          <div key={step} className="flex items-center min-w-fit">
-            <div className="flex items-center">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${styles.circle}`}>
-                {status === 'completed' ? (
-                  <Check className="h-4 w-4" />
-                ) : status === 'invalid' ? (
-                  <AlertCircle className="h-4 w-4" />
-                ) : (
-                  index + 1
-                )}
-              </div>
-              <div className="hidden sm:block" >
-                <span className={`ml-2 ${styles.text}`}>{name}</span>
-              </div>
-              <div className="block sm:hidden">
-                <span className={`ml-2 ${styles.text}`}>
-                  {name.length > 4 ? name.substring(0, 4) + '...' : name}
-                </span>
-              </div>
-            </div>
+    return (
+      <div className="flex items-center">
+        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${styles.circle}`}>
+          {status === 'completed' ? (
+            <Check className="h-4 w-4" />
+          ) : status === 'invalid' ? (
+            <AlertCircle className="h-4 w-4" />
+          ) : (
+            index + 1
+          )}
+        </div>
+        {showName && (
+          <span className={`ml-2 ${styles.text}`}>{stepInfo.name}</span>
+        )}
+      </div>
+    )
+  }
+
+  return (
+    <div className="mb-8">
+      {/* Mobile view - only current step */}
+      <div className="flex md:hidden justify-center">
+        <StepIndicator 
+          step={currentStep} 
+          index={currentIndex} 
+        />
+      </div>
+
+      {/* Desktop view - all steps with dividers */}
+      <div className="hidden md:flex justify-between items-center">
+        {STEPS.map(({ step }, index) => (
+          <div key={step} className="flex items-center">
+            <StepIndicator 
+              step={step} 
+              index={index} 
+              showName={true}
+            />
             {index < STEPS.length - 1 && (
-              <div className={`h-px w-4 sm:w-8 mx-1 sm:mx-2 ${
-                status === 'completed' ? 'bg-primary' : 'bg-border'
+              <div className={`h-px w-8 mx-2 ${
+                getStepStatus(step, index) === 'completed' 
+                  ? 'bg-primary' 
+                  : 'bg-border'
               }`} />
             )}
           </div>
-        )
-      })}
+        ))}
+      </div>
     </div>
   )
 }
