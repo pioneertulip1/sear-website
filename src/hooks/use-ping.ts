@@ -128,7 +128,8 @@ export function usePing() {
         1015: "TLS handshake failure"
       };
       
-      const details = codes[event.code] || "Unknown reason";
+      // Changed line: cast event.code to keyof typeof codes.
+      const details = codes[event.code as keyof typeof codes] || "Unknown reason";
       console.log(`Connection closed for ${host}:`);
       console.log(`- Code: ${event.code} (${details})`);
       console.log(`- Reason: ${event.reason || 'No reason provided'}`);
