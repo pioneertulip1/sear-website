@@ -71,7 +71,7 @@ export function MapSection() {
                 <text
                   textAnchor="middle"
                   y={-15}
-                  className="fill-current text-sm font-semibold"
+                  className="fill-current sm:text-sm text-lg font-semibold"
                 >
                   {name}
                 </text>
@@ -79,7 +79,7 @@ export function MapSection() {
                 <text
                   textAnchor="middle"
                   y={20}
-                  className="fill-current text-sm"
+                  className="fill-current sm:text-sm text-base"
                 >
                   {ping === -1 ? "Error" : `${ping}ms`}
                 </text>
