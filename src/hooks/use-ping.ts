@@ -31,16 +31,16 @@ export function usePing() {
 
     ws.onopen = () => {
       console.log(`Connected to ${host}`);
-      ws.send('ping');
+      const timestamp = Date.now();
+      ws.send(timestamp.toString());
     };
 
     ws.onmessage = (event => {
       try {
-        const pingTime = parseInt(event.data, 10);
-        setPings(prev => {
-          const newPings = { ...prev, [location]: pingTime };
-          return newPings;
-        });
+        const receivedTime = parseInt(event.data, 10);
+        const pingTime = Date.now() - receivedTime;
+
+        setPings(prev => ({ ...prev, [location]: pingTime }));
       } catch (error) {
         console.error(`Error processing ping for ${host}:`, error);
         setPings(prev => ({ ...prev, [location]: -1 }));
