@@ -49,7 +49,7 @@ export function RamStep({ state, onUpdate, onNext, onBack, isValid = false, avai
         </div>
 
         <Card>
-          <CardContent className={cn("pt-6", isMobile ? "px-4" : "px-6")}>
+        <CardContent className={cn("pt-6 min-h-[120px]", isMobile ? "px-4" : "px-6")}>
             {isMobile ? (
               <Select
                 value={state.ram.toString()}
@@ -80,13 +80,15 @@ export function RamStep({ state, onUpdate, onNext, onBack, isValid = false, avai
                   disabled={ramOptions.length === 0}
                 />
                 
-                <div className="flex justify-between text-xs text-muted-foreground mt-2">
-                  {ramOptions.map((value) => (
-                    <div key={value} className="flex flex-col items-center">
-                      <div className="h-1 w-px bg-border mb-1" />
-                      {value}GB
-                    </div>
-                  ))}
+                <div className="relative w-full">
+                  <div className="absolute w-full flex justify-between text-xs text-muted-foreground mt-2" style={{ left: '-4px', right: '-4px' }}>
+                    {ramOptions.map((value) => (
+                      <div key={value} className="flex flex-col items-center" style={{ width: '18px' }}>
+                        <div className="h-1 w-px bg-border mb-1" />
+                        {value}GB
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </>
             )}
