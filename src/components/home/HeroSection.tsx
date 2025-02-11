@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { MessageSquareMore } from "lucide-react";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
@@ -31,9 +32,11 @@ export function HeroSection() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-8">
-            <Button size="lg" className="bg-accent hover:bg-accent/90 text-foreground">
-              Get Started
-            </Button>
+            <Link href="/plans">
+              <Button size="lg" className="bg-accent hover:bg-accent/90 text-foreground">
+                Get Started
+              </Button>
+            </Link>
             <Button size="lg" variant="outline" className="gap-2">
               <MessageSquareMore className="h-5 w-5" />
               Join Discord

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export function CtaSection() {
   return (
@@ -24,13 +25,17 @@ export function CtaSection() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-            <Button size="lg" className="bg-accent hover:bg-accent/90 text-foreground gap-2">
-              Get Started Now
-              <ArrowRight className="h-5 w-5" />
-            </Button>
-            <Button size="lg" variant="outline">
-              View Pricing Plans
-            </Button>
+            <Link href="/plans">
+              <Button size="lg" className="bg-accent hover:bg-accent/90 text-foreground gap-2">
+                Get Started Now
+                <ArrowRight className="h-5 w-5" />
+              </Button>
+            </Link>
+            <Link href="/plans">
+              <Button size="lg" variant="outline">
+                View Pricing Plans
+              </Button>
+            </Link>
           </div>
 
           {/* Trust Badges */}
