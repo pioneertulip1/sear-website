@@ -17,7 +17,7 @@ const navLinks = [
 
 export function MainNav() {
   return (
-    <nav className="border-b border-secondary/20 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full">
+    <nav className="nav-blur border-b border-border sticky top-0 z-50 w-full">
       <div className="container-custom flex h-16 items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center">
@@ -44,35 +44,35 @@ export function MainNav() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-foreground/90 hover:text-primary transition-colors font-medium"
+                className="text-foreground-secondary hover:text-foreground transition-colors font-medium"
               >
                 {link.label}
               </Link>
             ))}
           </div>
-          <Button className="bg-accent hover:bg-accent/90 text-foreground">Get Started</Button>
+          <Button className="bg-primary hover:bg-primary-hover text-foreground">Get Started</Button>
         </div>
 
         {/* Mobile Navigation */}
         <Sheet>
           <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="text-foreground hover:bg-surface/20">
               <Menu className="h-6 w-6" />
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] bg-background">
+          <SheetContent side="right" className="w-[300px] glass-effect border-l border-border-strong">
             <div className="flex flex-col space-y-6 mt-8">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-foreground/90 hover:text-primary transition-colors font-medium text-lg"
+                  className="text-foreground-secondary hover:text-foreground transition-colors font-medium text-lg"
                 >
                   {link.label}
                 </Link>
               ))}
-              <Button className="bg-accent hover:bg-accent/90 text-foreground w-full">Get Started</Button>
+              <Button className="bg-primary hover:bg-primary-hover text-foreground w-full">Get Started</Button>
             </div>
           </SheetContent>
         </Sheet>

@@ -23,13 +23,14 @@ export function MapSection() {
   , [pings]);
 
   return (
-    <section className="relative py-16 bg-background">
+    <section className="relative py-16 depth-effect">
       <div className="container-custom">
         <h2 className="text-3xl font-bold text-center mb-12">
-          Global Infrastructure
+          <span className="text-gradient-primary">Global</span>{' '}
+          <span className="text-gradient-secondary">Infrastructure</span>
         </h2>
         
-        <div className="max-w-3xl mx-auto aspect-[2/1] bg-background rounded-lg border">
+        <div className="max-w-3xl mx-auto aspect-[2/1] glass-effect rounded-lg border-border-strong">
           <ComposableMap
             projectionConfig={{
               scale: 240,
@@ -42,8 +43,8 @@ export function MapSection() {
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    fill="#2C2C2C"
-                    stroke="#666"
+                    fill="rgba(255, 255, 255, 0.03)"
+                    stroke="rgba(255, 255, 255, 0.1)"
                     strokeWidth={0.5}
                   />
                 ))
@@ -57,21 +58,22 @@ export function MapSection() {
                   <circle
                     r="8"
                     fill="none"
-                    stroke={ping === -1 ? "rgba(239, 68, 68, 0.5)" : "rgba(147, 51, 234, 0.5)"} // red for error, purple for normal
+                    stroke={ping === -1 ? "rgb(255, 59, 48)" : "#007AFF"} // Use destructive color for error, primary for normal
                     strokeWidth="2"
-                    className="animate-ping"
+                    className="animate-ping opacity-30"
                   />
                   {/* Main marker dot */}
                   <circle
                     r="4"
-                    fill={ping === -1 ? "#EF4444" : "#9333EA"} // red for error, purple for normal
+                    fill={ping === -1 ? "rgb(255, 59, 48)" : "#5856D6"} // Use destructive color for error, secondary for normal
                   />
                 </g>
                 {/* Location name */}
                 <text
                   textAnchor="middle"
                   y={-15}
-                  className="fill-current sm:text-sm text-lg font-semibold"
+                  className="fill-current sm:text-sm text-lg font-bold"
+                  style={{ fill: 'white' }}
                 >
                   {name}
                 </text>
@@ -79,9 +81,10 @@ export function MapSection() {
                 <text
                   textAnchor="middle"
                   y={20}
-                  className="fill-current sm:text-sm text-base"
+                  style={{ fill: 'rgba(255, 255, 255, 0.7)' }}
+                  className="sm:text-sm text-base"
                 >
-                  {ping === -1 ? "Error" : `${ping}ms`}
+                  {ping === -1 ? "Offline" : `${ping}ms`}
                 </text>
               </Marker>
             ))}

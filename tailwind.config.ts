@@ -10,39 +10,47 @@ export default {
   theme: {
   	extend: {
   		colors: {
-  			background: 'hsl(var(--background))',
-  			foreground: 'hsl(var(--foreground))',
-  			card: {
-  				DEFAULT: 'hsl(var(--card))',
-  				foreground: 'hsl(var(--card-foreground))'
-  			},
-  			popover: {
-  				DEFAULT: 'hsl(var(--popover))',
-  				foreground: 'hsl(var(--popover-foreground))'
-  			},
-  			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
-  				foreground: 'hsl(var(--primary-foreground))'
-  			},
-  			secondary: {
-  				DEFAULT: 'hsl(var(--secondary))',
-  				foreground: 'hsl(var(--secondary-foreground))'
-  			},
-  			muted: {
-  				DEFAULT: 'hsl(var(--muted))',
-  				foreground: 'hsl(var(--muted-foreground))'
-  			},
-  			accent: {
-  				DEFAULT: 'hsl(var(--accent))',
-  				foreground: 'hsl(var(--accent-foreground))'
-  			},
-  			destructive: {
-  				DEFAULT: 'hsl(var(--destructive))',
-  				foreground: 'hsl(var(--destructive-foreground))'
-  			},
-  			border: 'hsl(var(--border))',
-  			input: 'hsl(var(--input))',
-  			ring: 'hsl(var(--ring))',
+  		  background: 'hsl(var(--background))',
+  		  foreground: {
+  		    DEFAULT: 'hsl(var(--foreground))',
+  		    secondary: 'hsl(var(--foreground-secondary))',
+  		  },
+  		  primary: {
+  		    DEFAULT: 'hsl(var(--primary))',
+  		    hover: 'hsl(var(--primary-hover))',
+  		  },
+  		  secondary: {
+  		    DEFAULT: 'hsl(var(--secondary))',
+  		    hover: 'hsl(var(--secondary-hover))',
+  		  },
+  		  surface: 'hsla(var(--surface))',
+  		  card: {
+  		    DEFAULT: 'hsla(var(--card))',
+  		    foreground: 'hsl(var(--card-foreground))',
+  		  },
+  		  nav: {
+  		    bg: 'hsla(var(--nav-bg))',
+  		  },
+  		  border: {
+  		    DEFAULT: 'hsla(var(--border))',
+  		    strong: 'hsla(var(--border-strong))',
+  		  },
+  		  muted: {
+  		    DEFAULT: 'hsla(var(--muted))',
+  		    foreground: 'hsl(var(--muted-foreground))',
+  		  },
+  		  destructive: {
+  		    DEFAULT: 'hsl(var(--destructive))',
+  		    hover: 'hsl(var(--destructive-hover))',
+  		  },
+  		  discord: {
+  		    DEFAULT: 'hsl(var(--discord))',
+  		    hover: 'hsl(var(--discord-hover))',
+  		  },
+  		  disabled: {
+  		    bg: 'hsl(var(--disabled-bg))',
+  		    text: 'hsl(var(--disabled-text))',
+  		  },
   			chart: {
   				'1': 'hsl(var(--chart-1))',
   				'2': 'hsl(var(--chart-2))',
@@ -90,5 +98,5 @@ export default {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [import("tailwindcss-animate")],
 } satisfies Config;
