@@ -2,18 +2,18 @@ import { Server, Shield, Globe } from "lucide-react";
 
 const features = [
   {
-    title: "Next-Gen Infrastructure",
-    description: "Powered by enterprise-grade hardware for lightning-fast performance.",
+    title: "Fast & Reliable",
+    description: "High-quality hardware that keeps your server running smoothly.",
     icon: Server,
   },
   {
-    title: "Get What You Pay For",
-    description: "What you buy should be yours. Sear Hosting promises 99% uptime and a performance guarantee.",
+    title: "Fair & Honest",
+    description: "We promise 99% uptime and deliver exactly what we advertise.",
     icon: Shield,
   },
   {
-    title: "Servers Around the Globe",
-    description: "Strategically placed in America, Singapore, and India to ensure the best connection for as many users as possible.",
+    title: "Close to You",
+    description: "Servers in America, Singapore, and India to give you a great connection.",
     icon: Globe,
   },
 ];
@@ -28,7 +28,7 @@ export function FeaturesSection() {
             <span className="heading-decoration">Why Choose</span> Sear Hosting?
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Experience the perfect blend of performance and reliability with our cutting-edge hosting solutions.
+            Here&apos;s what makes our hosting simple and reliable.
           </p>
         </div>
 

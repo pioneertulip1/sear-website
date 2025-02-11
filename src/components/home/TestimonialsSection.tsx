@@ -25,7 +25,7 @@ export function TestimonialsSection() {
             Trusted by <span className="heading-decoration">Real Communities</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Don&apos;t just take our word for it. Here&apos;s what our customers have to say.
+            Hear from people who host their servers with us.
           </p>
         </div>
 
@@ -71,7 +71,7 @@ export function TestimonialsSection() {
         {/* Trust Indicators */}
         <div className="mt-16 text-center">
           <p className="text-sm text-muted-foreground">
-            Join dozens of satisfied customers who trust Sear Hosting for their Minecraft servers
+            Many happy players already host their Minecraft servers with us
           </p>
         </div>
       </div>

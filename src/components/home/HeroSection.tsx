@@ -16,17 +16,17 @@ export function HeroSection() {
           {/* Main Heading */}
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
             <span className="text-primary heading-decoration">
-              Affordability
+              Simple, Fast
             </span>{" "}
-            meets{" "}
+            Minecraft{" "}
             <span className="text-accent heading-decoration">
-              performance
+              Hosting
             </span>
           </h1>
 
           {/* Description */}
           <p className="text-lg md:text-xl text-foreground/90 max-w-2xl mx-auto">
-            Experience next-generation Minecraft hosting with undeniable savings and reliability.
+            Host your Minecraft server with us. No fuss, just reliable hosting at a fair price.
           </p>
 
           {/* CTA Buttons */}

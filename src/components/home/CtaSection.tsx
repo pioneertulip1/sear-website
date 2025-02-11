@@ -12,14 +12,14 @@ export function CtaSection() {
         <div className="max-w-3xl mx-auto text-center space-y-8">
           {/* Heading */}
           <h2 className="text-3xl md:text-5xl font-bold leading-tight">
-            Ready to experience
-            <span className="block text-primary">next-level Minecraft hosting?</span>
+            Want to start your
+            <span className="block text-primary">own Minecraft server?</span>
           </h2>
 
           {/* Description */}
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Join thousands of players who trust Sear Hosting for their Minecraft servers. 
-            Get started today with our high-performance hosting solutions.
+            We&apos;ll help you get your server up and running in minutes.
+            Fair prices, friendly support, and no hidden fees.
           </p>
 
           {/* CTA Buttons */}
