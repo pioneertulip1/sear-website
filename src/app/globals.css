@@ -11,10 +11,10 @@
     --background: 0 0% 0%; /* #000000 */
     --foreground: 0 0% 100%; /* #FFFFFF */
     --foreground-secondary: 0 0% 70%; /* rgba(255, 255, 255, 0.7) */
-    --primary: 211 100% 50%; /* #007AFF */
-    --primary-hover: 211 100% 45%;
-    --secondary: 241 66% 59%; /* #5856D6 */
-    --secondary-hover: 241 66% 54%;
+    --primary: 284 100% 28%; /* #5e008d */
+    --primary-hover: 284 100% 23%;
+    --secondary: 35 100% 55%; /* #FF9F1C */
+    --secondary-hover: 35 100% 50%;
     
     /* UI Element Colors */
     --surface: 0 0% 100% 0.08; /* rgba(255, 255, 255, 0.08) */
@@ -68,14 +68,14 @@
     &::before {
       content: '';
       @apply absolute inset-0;
-      background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 122, 255, 0.1) 100%);
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(94, 0, 141, 0.1) 100%);
     }
   }
   
   .featured-gradient {
     background: linear-gradient(145deg,
-      rgba(0, 122, 255, 0.1),
-      rgba(88, 86, 214, 0.1)
+      rgba(94, 0, 141, 0.1),
+      rgba(94, 0, 141, 0.05)
     );
   }
   
@@ -163,8 +163,8 @@
       inset: 0;
       background: linear-gradient(
         to bottom,
-        rgba(0, 122, 255, 0.03),
-        rgba(88, 86, 214, 0.01),
+        rgba(94, 0, 141, 0.03),
+        rgba(94, 0, 141, 0.01),
         transparent
       );
       pointer-events: none;
@@ -182,9 +182,9 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #007AFF;
+  background: #5e008d;
   border-radius: 5px;
   &:hover {
-    background: #5856D6;
+    background: #4d0074;
   }
 }

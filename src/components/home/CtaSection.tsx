@@ -13,8 +13,8 @@ export function CtaSection() {
         <div className="max-w-3xl mx-auto text-center space-y-8">
           {/* Heading */}
           <h2 className="text-3xl md:text-5xl font-bold leading-tight">
-            <span className="text-emphasis-primary">Want to start your</span>
-            <span className="block text-emphasis-secondary">own Minecraft server?</span>
+            <span className="text-emphasis-white">Want to start your own</span>
+            <span className="block text-emphasis-primary">Minecraft server?</span>
           </h2>
 
           {/* Description */}

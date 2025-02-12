@@ -22,8 +22,8 @@ export function TestimonialsSection() {
         {/* Section Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            <span className="text-emphasis-primary">Trusted by</span>{" "}
-            <span className="text-emphasis-secondary">Real Communities</span>
+            <span className="text-emphasis-white">Trusted by</span>{" "}
+            <span className="text-emphasis-primary">Real Communities</span>
           </h2>
           <p className="text-foreground-secondary max-w-2xl mx-auto">
             Hear from people who host their servers with us.

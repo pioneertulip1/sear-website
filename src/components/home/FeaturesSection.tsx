@@ -25,8 +25,8 @@ export function FeaturesSection() {
         {/* Section Header */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            <span className="text-emphasis-primary">Why Choose</span>{" "}
-            <span className="text-emphasis-secondary">Sear Hosting?</span>
+            <span className="text-emphasis-white">Why Choose</span>{" "}
+            <span className="text-emphasis-primary">Sear Hosting?</span>
           </h2>
           <p className="text-foreground-secondary max-w-2xl mx-auto">
             Here&apos;s what makes our hosting simple and reliable.

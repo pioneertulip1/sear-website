@@ -16,13 +16,13 @@ export function HeroSection() {
         <div className="flex flex-col items-center text-center py-20 md:py-32 space-y-8">
           {/* Main Heading */}
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-            <span className="text-emphasis-primary">
-              Simple, Fast
+            <span className="text-emphasis-white">
+              Simple, Fast,
             </span>{" "}
-            Affordable{" "}
-            <span className="text-emphasis-secondary">
-              Hosting
-            </span>
+            <span className="text-emphasis-primary">
+              Affordable
+            </span>{" "}
+            Hosting
           </h1>
 
           {/* Description */}
