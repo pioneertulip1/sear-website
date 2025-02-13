@@ -42,7 +42,7 @@ export function Footer() {
               </div>
             </Link>
             <p className="text-sm text-muted-foreground">
-              Next-generation Minecraft hosting with undeniable savings and reliability.
+            No fuss, just reliable hosting at a fair price.
             </p>
             <div className="flex space-x-4">
               <Link href="https://discord.gg/sear" className="text-foreground/60 hover:text-primary transition-colors">
