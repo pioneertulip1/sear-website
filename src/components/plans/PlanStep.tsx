@@ -53,7 +53,7 @@ export function PlanStep({ state, onUpdate, onNext, onBack, isValid = false, ava
           return (
             <Card 
               key={type} 
-              className={`cursor-pointer ${
+              className={`${
                 state.planType === type ? 'border-primary' : ''
               }`}
             >

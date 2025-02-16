@@ -39,7 +39,7 @@ export default function ServerTypeStep({ state, onUpdate, onNext, onBack, availa
         {serverTypes.map((type) => (
           <Card
             key={type}
-            className={`cursor-pointer ${
+            className={`${
               state.serverType === type ? 'border-2 border-primary' : ''
             }`}
             onClick={() => {
