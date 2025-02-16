@@ -11,8 +11,8 @@ import { Menu } from 'lucide-react';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/plans', label: 'Plans' },
-  { href: '/bespoke', label: 'Bespoke Hosting' },
-  { href: '/support', label: 'Support' },
+  { href: '/under-construction', label: 'Bespoke Hosting' },
+  { href: '/under-construction', label: 'Support' },
 ];
 
 export function MainNav() {
@@ -50,7 +50,9 @@ export function MainNav() {
               </Link>
             ))}
           </div>
-          <Button className="bg-primary hover:bg-primary-hover text-foreground">Get Started</Button>
+          <Link href="/plans">
+            <Button className="bg-primary hover:bg-primary-hover text-foreground">Get Started</Button>
+          </Link>
         </div>
 
         {/* Mobile Navigation */}
@@ -72,7 +74,9 @@ export function MainNav() {
                   {link.label}
                 </Link>
               ))}
-              <Button className="bg-primary hover:bg-primary-hover text-foreground w-full">Get Started</Button>
+              <Link href="/under-construction">
+                <Button className="bg-primary hover:bg-primary-hover text-foreground w-full">Get Started</Button>
+              </Link>
             </div>
           </SheetContent>
         </Sheet>
