@@ -47,7 +47,9 @@ export default function StorageStep({ state, onUpdate, onNext, onBack }: StepPro
               <span className="text-sm font-medium">{state.storage || '50'}GB NVMe SSD</span>
             </div>
 
-            
+            <div className="text-center text-sm text-gray-600">
+              ${(STORAGE_PRICING['50'] * 20).toFixed(2)}/TB equivalent
+            </div>
           </div>
         </CardContent>
       </Card>

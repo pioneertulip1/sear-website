@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Button } from "@/components/ui/button"
-import { StepProps, getCheckoutLink, formatPrice, CPU_THREAD_PRICING, RAM_PRICING, STORAGE_PRICING, calculateComponentPrice } from "./types"
+import { StepProps, formatPrice, CPU_THREAD_PRICING, RAM_PRICING, STORAGE_PRICING, generateCheckoutUrl, calculateComponentPrice } from "./types"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -8,8 +8,7 @@ import { Label } from "@/components/ui/label"
 
 interface PriceBreakdownItem {
   label: string
-  basePrice: number
-  type: 'cpu' | 'ram' | 'storage'
+  monthlyPrice: number
 }
 
 export function CheckoutStep({ state, onUpdate, onBack }: StepProps) {
@@ -22,41 +21,34 @@ export function CheckoutStep({ state, onUpdate, onBack }: StepProps) {
   const priceBreakdown: PriceBreakdownItem[] = [
     {
       label: `CPU (${state.cpuThreads} Thread${state.cpuThreads === '1' ? '' : 's'})`,
-      basePrice: state.cpuThreads ? CPU_THREAD_PRICING[state.cpuThreads] : 0,
-      type: 'cpu'
+      monthlyPrice: state.cpuThreads ? CPU_THREAD_PRICING[state.cpuThreads] : 0
     },
     {
       label: `RAM (${state.ram}GB)`,
-      basePrice: RAM_PRICING[state.ram],
-      type: 'ram'
+      monthlyPrice: RAM_PRICING[state.ram]
     },
     {
       label: `Storage (${state.storage}GB NVMe SSD)`,
-      basePrice: state.storage ? STORAGE_PRICING[state.storage] : 0,
-      type: 'storage'
+      monthlyPrice: state.storage ? STORAGE_PRICING[state.storage] : 0
     }
   ]
 
-  const isQuarterly = billingPeriod === 'quarterly'
-  
-  const monthlySubtotal = priceBreakdown.reduce((sum, item) => sum + item.basePrice, 0)
-  const discountedSubtotal = priceBreakdown.reduce(
-    (sum, item) => sum + calculateComponentPrice(item.basePrice, billingPeriod),
+  const monthlySubtotal = priceBreakdown.reduce(
+    (sum, item) => sum + item.monthlyPrice,
     0
   )
-  const periodTotal = isQuarterly ? discountedSubtotal * 3 : discountedSubtotal
+  const discountedSubtotal = priceBreakdown.reduce(
+    (sum, item) => sum + calculateComponentPrice(item.monthlyPrice, billingPeriod),
+    0
+  )
+  const periodTotal = billingPeriod === 'quarterly' ? discountedSubtotal * 3 : discountedSubtotal
 
   const handleBillingPeriodChange = React.useCallback((value: string) => {
     setBillingPeriod(value as 'monthly' | 'quarterly')
     onUpdate({ billingPeriod: value as 'monthly' | 'quarterly' })
   }, [onUpdate])
 
-  const checkoutLink = getCheckoutLink({
-    region: state.region,
-    planType: state.planType,
-    ram: state.ram,
-    billingPeriod
-  })
+  const checkoutLink = generateCheckoutUrl(state)
 
   return (
     <div className="space-y-6">
@@ -83,23 +75,22 @@ export function CheckoutStep({ state, onUpdate, onBack }: StepProps) {
 
             <div className="space-y-2">
               {priceBreakdown.map((item, index) => {
-                const discountedPrice = calculateComponentPrice(item.basePrice, billingPeriod)
+                const discountedPrice = calculateComponentPrice(item.monthlyPrice, billingPeriod)
                 return (
                   <div key={index} className="flex justify-between text-sm">
                     <span className="text-gray-600">{item.label}</span>
                     <div className="text-right">
-                      {isQuarterly && (
+                      {billingPeriod === 'quarterly' ? (
                         <>
                           <span className="text-gray-400 line-through mr-2">
-                            {formatPrice(item.basePrice, 'month')}
+                            {formatPrice(item.monthlyPrice, 'month')}
                           </span>
                           <span className="text-green-600">
                             {formatPrice(discountedPrice, 'month')}
                           </span>
                         </>
-                      )}
-                      {!isQuarterly && (
-                        <span>{formatPrice(item.basePrice, 'month')}</span>
+                      ) : (
+                        <span>{formatPrice(item.monthlyPrice, 'month')}</span>
                       )}
                     </div>
                   </div>
@@ -138,7 +129,7 @@ export function CheckoutStep({ state, onUpdate, onBack }: StepProps) {
 
               <Separator className="my-4" />
 
-              {isQuarterly ? (
+              {billingPeriod === 'quarterly' ? (
                 <>
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Monthly Base Price</span>
@@ -157,11 +148,11 @@ export function CheckoutStep({ state, onUpdate, onBack }: StepProps) {
               )}
 
               <div className="flex justify-between font-medium text-base pt-2">
-                <span>Total {isQuarterly ? '(3 months)' : '(monthly)'}</span>
+                <span>Total {billingPeriod === 'quarterly' ? '(3 months)' : '(monthly)'}</span>
                 <span>{formatPrice(periodTotal)}</span>
               </div>
 
-              {isQuarterly && (
+              {billingPeriod === 'quarterly' && (
                 <div className="flex justify-between text-sm text-green-600">
                   <span>You save</span>
                   <span>{formatPrice((monthlySubtotal - discountedSubtotal) * 3)} over 3 months</span>

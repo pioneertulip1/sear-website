@@ -13,7 +13,6 @@ import {
   FormStep,
   FormState,
   StepValidators,
-  getNextStep,
   StepProps,
   Region,
   PlanType,
@@ -59,12 +58,16 @@ function getInitialState(): FormState {
   }
 }
 
+// Get initial step from URL or start at region
 function getInitialStep(): FormStep {
   if (typeof window === 'undefined') return 'region'
   const params = new URLSearchParams(window.location.search)
   const step = params.get('step') as FormStep | null
   return step && Object.keys(STEPS).includes(step) ? step : 'region'
 }
+
+// Define step order for navigation
+const STEP_ORDER: FormStep[] = ['region', 'plan', 'server', 'cpuram', 'storage', 'checkout']
 
 export default function PlansPage() {
   const [step, setStep] = React.useState<FormStep>(getInitialStep)
@@ -108,17 +111,28 @@ export default function PlansPage() {
   }
 
   const handleNext = () => {
-    const nextStep = getNextStep(step, state)
+    const currentIndex = STEP_ORDER.indexOf(step)
+    
+    if (currentIndex === -1 || !StepValidators[step].canProceed(state)) {
+      return
+    }
+
+    // Skip storage step for US East
+    if (state.region === 'us-east' && STEP_ORDER[currentIndex + 1] === 'storage') {
+      setStep('checkout')
+      return
+    }
+
+    const nextStep = STEP_ORDER[currentIndex + 1]
     if (nextStep) {
       setStep(nextStep)
     }
   }
 
   const handleBack = () => {
-    const stepOrder: FormStep[] = ['region', 'plan', 'server', 'cpuram', 'storage', 'checkout']
-    const currentIndex = stepOrder.indexOf(step)
+    const currentIndex = STEP_ORDER.indexOf(step)
     if (currentIndex > 0) {
-      setStep(stepOrder[currentIndex - 1])
+      setStep(STEP_ORDER[currentIndex - 1])
     }
   }
 
