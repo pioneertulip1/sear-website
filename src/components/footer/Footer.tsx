@@ -5,17 +5,17 @@ import { Github, Twitter, MessageSquareMore } from 'lucide-react';
 const footerLinks = {
   product: [
     { href: '/plans', label: 'Plans' },
-    { href: '/bespoke', label: 'Bespoke Hosting' },
-    { href: '/support', label: 'Support' },
+    { href: '/under-construction', label: 'Bespoke Hosting' },
+    { href: '/under-construction', label: 'Support' },
   ],
   company: [
-    { href: '/about', label: 'About Us' },
-    { href: '/contact', label: 'Contact' },
-    { href: '/blog', label: 'Blog' },
+    { href: '/under-construction', label: 'About Us' },
+    { href: '/under-construction', label: 'Contact' },
+    { href: '/under-construction', label: 'Blog' },
   ],
   legal: [
-    { href: '/privacy', label: 'Privacy Policy' },
-    { href: '/terms', label: 'Terms of Service' },
+    { href: '/under-construction', label: 'Privacy Policy' },
+    { href: '/under-construction', label: 'Terms of Service' },
   ],
 };
 

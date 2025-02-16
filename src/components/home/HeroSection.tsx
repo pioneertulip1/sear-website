@@ -37,10 +37,12 @@ export function HeroSection() {
                 Get Started
               </Button>
             </Link>
-            <Button size="lg" variant="discord" className="gap-2">
-              <MessageSquareMore className="h-5 w-5" />
-              Join Discord
-            </Button>
+            <Link href="https://discord.gg/sear">
+              <Button size="lg" variant="discord" className="gap-2">
+                <MessageSquareMore className="h-5 w-5" />
+                Join Discord
+              </Button>
+            </Link>
           </div>
 
           {/* Stats */}
