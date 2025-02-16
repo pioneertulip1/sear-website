@@ -358,8 +358,8 @@ export const generateCheckoutUrl = (config: FormState): string => {
     }
   }
 
-  const url = `${configSet.baseUrl}?${params.toString()}`
-  return `${url}&billing_cycle=${config.billingPeriod}`
+  params.set('billing_cycle', config.billingPeriod)
+  return `${configSet.baseUrl}?${params.toString()}`
 }
 
 // Checkout configuration

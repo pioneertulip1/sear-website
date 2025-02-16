@@ -53,7 +53,15 @@ export function CheckoutStep({ state, onUpdate, onBack }: StepProps) {
     onUpdate({ billingPeriod: value as 'monthly' | 'quarterly' })
   }, [onUpdate])
 
-  const checkoutLink = generateCheckoutUrl(state)
+  const checkoutLink = React.useMemo(() => generateCheckoutUrl({ ...state, billingPeriod }), [
+    state.region,
+    state.planType,
+    state.serverType,
+    state.ram,
+    state.storage,
+    state.cpuThreads,
+    billingPeriod
+  ])
 
   return (
     <div className="space-y-6">
