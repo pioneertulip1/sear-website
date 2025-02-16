@@ -1,7 +1,8 @@
+import * as React from 'react'
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
-import { CPUThreads, RAM, StepProps, CPU_THREAD_PRICING, RAM_PRICING, REGION_PLAN_CONFIG } from "./types"
+import { CPUThreads, RAM, StepProps, CPU_THREAD_PRICING, RAM_PRICING, REGION_PLAN_CONFIG, US_EAST_FIXED } from "./types"
 import { formatPrice } from "./types"
 import { Separator } from "@/components/ui/separator"
 
@@ -15,6 +16,13 @@ export default function CPURamStep({ state, onUpdate, onNext, onBack }: StepProp
   const cpuIndex = CPU_OPTIONS.indexOf(state.cpuThreads || '1')
   const ramIndex = availableRAMOptions.indexOf(state.ram || availableRAMOptions[0])
 
+  // Set fixed CPU threads for US East region
+  React.useEffect(() => {
+    if (state.region === 'us-east' && state.cpuThreads !== US_EAST_FIXED.cpuThreads) {
+      onUpdate({ cpuThreads: US_EAST_FIXED.cpuThreads })
+    }
+  }, [state.region, state.cpuThreads, onUpdate])
+
   const handleCPUChange = (value: number[]) => {
     const threads = CPU_OPTIONS[value[0]]
     onUpdate({ cpuThreads: threads })
@@ -26,7 +34,7 @@ export default function CPURamStep({ state, onUpdate, onNext, onBack }: StepProp
   }
 
   const cpuPrice = state.cpuThreads ? CPU_THREAD_PRICING[state.cpuThreads] : 0
-  const ramPrice = state.ram ? RAM_PRICING[state.ram] : 0
+  const ramPrice = state.ram && state.region ? RAM_PRICING(state.region, state.ram) : 0
   const totalPrice = state.region === 'us-east' ? ramPrice : cpuPrice + ramPrice
 
   const showCPUSlider = state.region !== 'us-east'

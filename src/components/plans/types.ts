@@ -58,18 +58,31 @@ export const CPU_THREAD_PRICING: Record<CPUThreads, number> = {
   '8': 30.00
 }
 
-export const RAM_PRICING: Record<RAM, number> = {
-  '2': 3.00,
-  '3': 3.50,
-  '4': 4.00,
-  '5': 5.00,
-  '6': 6.00,
-  '7': 7.00,
-  '8': 8.00,
-  '10': 10.00,
-  '12': 12.00,
-  '16': 16.00,
-  '20': 20.00
+export const US_EAST_FIXED = {
+  cpuThreads: '4' as const,
+  storage: '50' as const,
+  ramPricePerGB: 0.75
+}
+
+export const RAM_PRICING = (region: Region, ram: RAM): number => {
+  if (region === 'us-east') {
+    return Number(ram) * US_EAST_FIXED.ramPricePerGB
+  }
+
+  const prices: Record<RAM, number> = {
+    '2': 3.00,
+    '3': 3.50,
+    '4': 4.00,
+    '5': 5.00,
+    '6': 6.00,
+    '7': 7.00,
+    '8': 8.00,
+    '10': 10.00,
+    '12': 12.00,
+    '16': 16.00,
+    '20': 20.00
+  }
+  return prices[ram]
 }
 
 export const STORAGE_PRICING: Record<Storage, number> = {

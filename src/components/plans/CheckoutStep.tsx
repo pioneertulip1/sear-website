@@ -18,20 +18,25 @@ export function CheckoutStep({ state, onUpdate, onBack }: StepProps) {
     setBillingPeriod(state.billingPeriod)
   }, [state.billingPeriod])
 
+  const isUSEast = state.region === 'us-east'
   const priceBreakdown: PriceBreakdownItem[] = [
+    ...(isUSEast ? [] : [
+      {
+        label: `CPU (${state.cpuThreads} Thread${state.cpuThreads === '1' ? '' : 's'})`,
+        monthlyPrice: state.cpuThreads ? CPU_THREAD_PRICING[state.cpuThreads] : 0
+      }
+    ]),
     {
-      label: `CPU (${state.cpuThreads} Thread${state.cpuThreads === '1' ? '' : 's'})`,
-      monthlyPrice: state.cpuThreads ? CPU_THREAD_PRICING[state.cpuThreads] : 0
+      label: `RAM (${state.ram}GB)${isUSEast ? ' ($0.75/GB)' : ''}`,
+      monthlyPrice: RAM_PRICING(state.region, state.ram)
     },
-    {
-      label: `RAM (${state.ram}GB)`,
-      monthlyPrice: RAM_PRICING[state.ram]
-    },
-    {
-      label: `Storage (${state.storage}GB NVMe SSD)`,
-      monthlyPrice: state.storage ? STORAGE_PRICING[state.storage] : 0
-    }
-  ]
+    ...(isUSEast ? [] : [
+      {
+        label: `Storage (${state.storage}GB NVMe SSD)`,
+        monthlyPrice: state.storage ? STORAGE_PRICING[state.storage] : 0
+      }
+    ])
+  ].filter(Boolean)
 
   const monthlySubtotal = priceBreakdown.reduce(
     (sum, item) => sum + item.monthlyPrice,
