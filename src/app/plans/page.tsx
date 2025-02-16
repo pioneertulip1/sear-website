@@ -5,8 +5,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { FormProgress } from '@/components/plans/FormProgress'
 import { RegionStep } from '@/components/plans/RegionStep'
 import { PlanStep } from '@/components/plans/PlanStep'
-import { RamStep } from '@/components/plans/RamStep'
-import { BillingStep } from '@/components/plans/BillingStep'
+import ServerTypeStep from '@/components/plans/ServerTypeStep'
+import CPURamStep from '@/components/plans/CPURamStep'
+import StorageStep from '@/components/plans/StorageStep'
 import { CheckoutStep } from '@/components/plans/CheckoutStep'
 import {
   FormStep,
@@ -17,14 +18,17 @@ import {
   Region,
   PlanType,
   RAM,
-  BillingPeriod
+  CPUThreads,
+  Storage,
+  ServerType
 } from '@/components/plans/types'
 
 const STEPS = {
   region: RegionStep,
   plan: PlanStep,
-  ram: RamStep,
-  billing: BillingStep,
+  server: ServerTypeStep,
+  cpuram: CPURamStep,
+  storage: StorageStep,
   checkout: CheckoutStep
 } satisfies Record<FormStep, React.ComponentType<StepProps>>
 
@@ -34,7 +38,10 @@ function getInitialState(): FormState {
     return {
       region: 'india',
       planType: 'budget',
+      serverType: 'PaperMC',
+      cpuThreads: '2',
       ram: '4',
+      storage: '50',
       billingPeriod: 'monthly'
     }
   }
@@ -44,8 +51,11 @@ function getInitialState(): FormState {
   return {
     region: (params.get('region') as Region) || 'india',
     planType: (params.get('plan') as PlanType) || 'budget',
+    serverType: (params.get('server') as ServerType) || 'PaperMC',
+    cpuThreads: (params.get('cpu') as CPUThreads) || '2',
     ram: (params.get('ram') as RAM) || '4',
-    billingPeriod: (params.get('billing') as BillingPeriod) || 'monthly'
+    storage: (params.get('storage') as Storage) || '50',
+    billingPeriod: (params.get('billing') as 'monthly' | 'quarterly') || 'monthly'
   }
 }
 
@@ -66,7 +76,10 @@ export default function PlansPage() {
     params.set('step', step)
     if (state.region) params.set('region', state.region)
     if (state.planType) params.set('plan', state.planType)
+    if (state.serverType) params.set('server', state.serverType)
+    if (state.cpuThreads) params.set('cpu', state.cpuThreads)
     if (state.ram) params.set('ram', state.ram)
+    if (state.storage) params.set('storage', state.storage)
     if (state.billingPeriod) params.set('billing', state.billingPeriod)
 
     window.history.replaceState(
@@ -102,7 +115,7 @@ export default function PlansPage() {
   }
 
   const handleBack = () => {
-    const stepOrder: FormStep[] = ['region', 'plan', 'ram', 'billing', 'checkout']
+    const stepOrder: FormStep[] = ['region', 'plan', 'server', 'cpuram', 'storage', 'checkout']
     const currentIndex = stepOrder.indexOf(step)
     if (currentIndex > 0) {
       setStep(stepOrder[currentIndex - 1])
@@ -123,7 +136,7 @@ export default function PlansPage() {
           </h1>
           <Card className="inline-block w-full max-w-[800px]">
             <CardContent className="p-6 sm:p-8">
-              <FormProgress currentStep={step} state={state} />
+              <FormProgress currentStep={step} />
               <StepComponent
                 state={state}
                 onUpdate={handleUpdateState}
