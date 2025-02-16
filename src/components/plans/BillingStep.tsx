@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { StepProps, BillingPeriod, StepValidators, calculatePrice, formatPrice } from './types'
+import { StepProps, BillingPeriod, StepValidators, calculateComponentPrice, formatPrice } from './types'
 import { ArrowLeft, ArrowRight, AlertTriangle } from 'lucide-react'
 
 interface BillingOptions {
@@ -75,7 +75,7 @@ export function BillingStep({ state, onUpdate, onNext, onBack, isValid = false, 
                 </div>
               </div>
               <div className="text-xl font-semibold">
-                {formatPrice(calculatePrice(state), 'month')}
+                {formatPrice(calculateComponentPrice(Number(state.ram), state.billingPeriod), 'month')}
               </div>
             </div>
           </div>

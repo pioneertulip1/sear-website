@@ -9,7 +9,7 @@ const CPU_OPTIONS = Object.keys(CPU_THREAD_PRICING) as CPUThreads[]
 
 export default function CPURamStep({ state, onUpdate, onNext, onBack }: StepProps) {
   const availableRAMOptions = state.region && state.planType 
-    ? REGION_PLAN_CONFIG[state.region].ramOptions[state.planType] as RAM[]
+    ? [...REGION_PLAN_CONFIG[state.region].ramOptions[state.planType]] as RAM[]
     : []
 
   const cpuIndex = CPU_OPTIONS.indexOf(state.cpuThreads || '1')

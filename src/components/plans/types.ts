@@ -4,7 +4,7 @@ export type PlanType = 'budget' | 'budget+'
 export type ServerType = 'PaperMC' | 'Fabric' | 'PocketmineMP' | 'Forge' | 'GeyserMC'
 export type CPUThreads = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8'
 export type RAM = '2' | '3' | '4' | '5' | '6' | '7' | '8' | '10' | '12' | '16' | '20'
-export type Storage = '50' | '100' | '150' | '200'
+export type Storage = '50' | '75' | '100' | '150' | '200'
 export type Currency = 'USD' | 'PHP' | 'INR'
 export type BillingPeriod = 'monthly' | 'quarterly'
 export type FormStep = 'region' | 'plan' | 'server' | 'cpuram' | 'storage' | 'checkout'
@@ -74,6 +74,7 @@ export const RAM_PRICING: Record<RAM, number> = {
 
 export const STORAGE_PRICING: Record<Storage, number> = {
   '50': 2.50,
+  '75': 3.75,
   '100': 5.00,
   '150': 7.50,
   '200': 10.00
@@ -138,15 +139,17 @@ export const REGION_PLAN_CONFIG = {
 
 // Validation helpers
 export const isValidPlanForRegion = (region: Region, plan: PlanType): boolean => {
-  return REGION_PLAN_CONFIG[region].availablePlans.includes(plan)
+  const availablePlans = [...REGION_PLAN_CONFIG[region].availablePlans]
+  return availablePlans.includes(plan)
 }
 
 export const isValidRAMForPlan = (region: Region, plan: PlanType, ram: RAM): boolean => {
-  return REGION_PLAN_CONFIG[region].ramOptions[plan].includes(ram)
+  const ramOptions = [...REGION_PLAN_CONFIG[region].ramOptions[plan]]
+  return ramOptions.includes(ram)
 }
 
 // Step validators
-export const StepValidators: Record<FormStep, StepValidation> = {
+export const StepValidators: Record<FormStep | 'billing' | 'ram', StepValidation> = {
   region: {
     canProceed: (state) => Boolean(state.region),
     getAvailableOptions: () => Object.keys(REGION_PLAN_CONFIG),
@@ -247,6 +250,29 @@ export const StepValidators: Record<FormStep, StepValidation> = {
     },
     getAvailableOptions: () => ({}),
     validateUpdate: () => false
+  },
+  billing: {
+    canProceed: (state) => Boolean(state.billingPeriod),
+    getAvailableOptions: () => ({ periods: ['monthly', 'quarterly'] as const }),
+    validateUpdate: (_, update) => !update.billingPeriod || ['monthly', 'quarterly'].includes(update.billingPeriod)
+  },
+  ram: {
+    canProceed: (state) => Boolean(
+      state.region &&
+      state.planType &&
+      state.ram &&
+      isValidRAMForPlan(state.region, state.planType, state.ram)
+    ),
+    getAvailableOptions: (state) =>
+      state.region && state.planType
+        ? REGION_PLAN_CONFIG[state.region].ramOptions[state.planType]
+        : [],
+    validateUpdate: (state, update) =>
+      !update.ram || (
+        state.region &&
+        state.planType &&
+        isValidRAMForPlan(state.region, state.planType, update.ram)
+      )
   }
 }
 
@@ -290,22 +316,30 @@ export const generateCheckoutUrl = (config: FormState): string => {
     configSet = CHECKOUT_CONFIGS.BUDGET_PLUS_ASIA
   }
 
-  params.set(`config[${configSet.params.RAM}]`, 
-    configSet.values.ram[config.ram])
+  // Required parameters
+  const ramValue = config.ram && configSet.values.ram[config.ram]
+  if (ramValue) {
+    params.set(`config[${configSet.params.RAM}]`, ramValue)
+  }
 
-  params.set(`config[${configSet.params.SERVER_TYPE}]`,
-    configSet.values.serverType[config.serverType!])
+  if (config.serverType && config.serverType in configSet.values.serverType) {
+    params.set(`config[${configSet.params.SERVER_TYPE}]`,
+      configSet.values.serverType[config.serverType])
+  }
 
+  // Optional parameters for non-US regions
   if (config.region !== 'us-east') {
-    params.set(`config[${configSet.params.LOCATION}]`,
-      configSet.values.location[config.region])
+    if (configSet.params.LOCATION && configSet.values.location?.[config.region]) {
+      params.set(`config[${configSet.params.LOCATION}]`,
+        configSet.values.location[config.region])
+    }
     
-    if (config.storage && 'DISK' in configSet.params) {
+    if (config.storage && configSet.params.DISK && configSet.values.storage?.[config.storage]) {
       params.set(`config[${configSet.params.DISK}]`,
         configSet.values.storage[config.storage])
     }
 
-    if (config.cpuThreads && 'CPU' in configSet.params) {
+    if (config.cpuThreads && configSet.params.CPU && configSet.values.cpu?.[config.cpuThreads]) {
       params.set(`config[${configSet.params.CPU}]`,
         configSet.values.cpu[config.cpuThreads])
     }
@@ -316,7 +350,25 @@ export const generateCheckoutUrl = (config: FormState): string => {
 }
 
 // Checkout configuration
-export const CHECKOUT_CONFIGS = {
+type CheckoutConfig = {
+  readonly baseUrl: string;
+  readonly params: {
+    readonly RAM: string;
+    readonly SERVER_TYPE: string;
+    readonly LOCATION?: string;
+    readonly DISK?: string;
+    readonly CPU?: string;
+  };
+  readonly values: {
+    readonly ram: Partial<Record<RAM, string>>;
+    readonly serverType: Record<ServerType, string>;
+    readonly location?: Record<Exclude<Region, 'us-east'>, string>;
+    readonly storage?: Record<Storage, string>;
+    readonly cpu?: Record<CPUThreads, string>;
+  };
+};
+
+export const CHECKOUT_CONFIGS: Record<'BUDGET_ASIA' | 'BUDGET_PLUS_ASIA' | 'BUDGET_NA', CheckoutConfig> = {
   BUDGET_ASIA: {
     baseUrl: 'https://billing.sear.host/checkout/config/13',
     params: {
