@@ -21,6 +21,7 @@ import {
   Storage,
   ServerType
 } from '@/components/plans/types'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const STEPS = {
   region: RegionStep,
@@ -70,6 +71,7 @@ function getInitialStep(): FormStep {
 const STEP_ORDER: FormStep[] = ['region', 'plan', 'server', 'cpuram', 'storage', 'checkout']
 
 export default function PlansPage() {
+  const isMobile = useIsMobile()
   const [step, setStep] = React.useState<FormStep>(getInitialStep)
   const [state, setState] = React.useState<FormState>(getInitialState)
 
@@ -126,6 +128,10 @@ export default function PlansPage() {
     const nextStep = STEP_ORDER[currentIndex + 1]
     if (nextStep) {
       setStep(nextStep)
+      // Scroll to top on mobile when changing steps
+      if (isMobile) {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     }
   }
 
@@ -133,6 +139,10 @@ export default function PlansPage() {
     const currentIndex = STEP_ORDER.indexOf(step)
     if (currentIndex > 0) {
       setStep(STEP_ORDER[currentIndex - 1])
+      // Scroll to top on mobile when changing steps
+      if (isMobile) {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     }
   }
 
@@ -142,14 +152,14 @@ export default function PlansPage() {
   const availableOptions = StepValidators[step].getAvailableOptions(state)
 
   return (
-    <main className="min-h-screen flex items-center justify-center py-8">
-      <div className="container px-4 sm:px-6">
+    <main className="min-h-screen flex items-start md:items-center justify-center py-4 md:py-8 bg-background">
+      <div className="container px-0 md:px-6 mx-auto">
         <div className="flex flex-col items-center">
-          <h1 className="text-3xl sm:text-4xl font-bold text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8 px-4 text-foreground">
             Choose Your Hosting Plan
           </h1>
-          <Card className="inline-block w-full max-w-[800px]">
-            <CardContent className="p-6 sm:p-8">
+          <Card className="w-full md:max-w-[800px] rounded-none md:rounded-lg shadow-sm md:shadow bg-card">
+            <CardContent className="p-4 md:p-8">
               <FormProgress currentStep={step} />
               <StepComponent
                 state={state}
