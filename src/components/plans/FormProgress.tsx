@@ -1,12 +1,14 @@
+import * as React from 'react'
 import { FormStep } from "./types"
 import { cn } from "@/lib/utils"
 import { useIsMobile } from "@/hooks/use-mobile"
 
 interface Props {
   currentStep: FormStep
+  state?: { region?: string }
 }
 
-const STEPS: { step: FormStep; label: string }[] = [
+const ALL_STEPS: { step: FormStep; label: string }[] = [
   { step: 'region', label: 'Location' },
   { step: 'plan', label: 'Plan' },
   { step: 'server', label: 'Server Type' },
@@ -15,7 +17,13 @@ const STEPS: { step: FormStep; label: string }[] = [
   { step: 'checkout', label: 'Checkout' }
 ]
 
-export function FormProgress({ currentStep }: Props) {
+export function FormProgress({ currentStep, state }: Props) {
+  const STEPS = React.useMemo(() => {
+    if (state?.region === 'us-east') {
+      return ALL_STEPS.filter(step => step.step !== 'storage')
+    }
+    return ALL_STEPS
+  }, [state?.region])
   const isMobile = useIsMobile()
   const currentIndex = STEPS.findIndex(s => s.step === currentStep)
   

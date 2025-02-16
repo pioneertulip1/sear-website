@@ -160,7 +160,7 @@ export default function PlansPage() {
           </h1>
           <Card className="w-full md:max-w-[800px] rounded-none md:rounded-lg shadow-sm md:shadow bg-card">
             <CardContent className="p-4 md:p-8">
-              <FormProgress currentStep={step} />
+              <FormProgress currentStep={step} state={state} />
               <StepComponent
                 state={state}
                 onUpdate={handleUpdateState}
