@@ -45,7 +45,7 @@ export function Footer() {
             No fuss, just reliable hosting at a fair price.
             </p>
             <div className="flex space-x-4">
-              <Link href="https://discord.gg/sear" className="text-foreground/60 hover:text-primary transition-colors">
+              <Link href="https://discord.gg/s4MZumySeP" className="text-foreground/60 hover:text-primary transition-colors">
                 <MessageSquareMore className="h-5 w-5" />
                 <span className="sr-only">Discord</span>
               </Link>
@@ -53,7 +53,7 @@ export function Footer() {
                 <Twitter className="h-5 w-5" />
                 <span className="sr-only">Twitter</span>
               </Link>
-              <Link href="https://github.com/searhosting" className="text-foreground/60 hover:text-primary transition-colors">
+              <Link href="https://github.com/Sear-Hosting" className="text-foreground/60 hover:text-primary transition-colors">
                 <Github className="h-5 w-5" />
                 <span className="sr-only">Github</span>
               </Link>
