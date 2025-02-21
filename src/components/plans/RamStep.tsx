@@ -6,7 +6,7 @@ import { Slider } from "@/components/ui/slider"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { StepProps, RAM, StepValidators, calculatePrice, formatPrice } from './types'
+import { StepProps, RAM, StepValidators, calculateComponentPrice, formatPrice } from './types'
 import { ArrowLeft, ArrowRight, AlertTriangle } from 'lucide-react'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
@@ -43,7 +43,7 @@ export function RamStep({ state, onUpdate, onNext, onBack, isValid = false, avai
           <div className="flex items-baseline gap-4 flex-wrap">
             <div className="text-2xl font-bold">{state.ram}GB</div>
             <div className="text-lg font-semibold text-muted-foreground">
-              {formatPrice(calculatePrice(state), 'month')}
+              {formatPrice(calculateComponentPrice(Number(state.ram), state.billingPeriod), 'month')}
             </div>
           </div>
         </div>

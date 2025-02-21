@@ -1,127 +1,109 @@
 import * as React from 'react'
-import { FormStep, FormState, StepValidators } from './types'
-import { Check, AlertCircle } from 'lucide-react'
+import { FormStep } from "./types"
+import { cn } from "@/lib/utils"
+import { useIsMobile } from "@/hooks/use-mobile"
 
-interface FormProgressProps {
+interface Props {
   currentStep: FormStep
-  state: FormState
+  state?: { region?: string }
 }
 
-type StepStatus = 'completed' | 'invalid' | 'valid' | 'pending'
+const ALL_STEPS: { step: FormStep; label: string }[] = [
+  { step: 'region', label: 'Location' },
+  { step: 'plan', label: 'Plan' },
+  { step: 'server', label: 'Server Type' },
+  { step: 'cpuram', label: 'CPU/RAM' },
+  { step: 'storage', label: 'Storage' },
+  { step: 'checkout', label: 'Checkout' }
+]
 
-const STEPS: Array<{ name: string; step: FormStep }> = [
-  { name: 'Region', step: 'region' },
-  { name: 'Plan', step: 'plan' },
-  { name: 'RAM', step: 'ram' },
-  { name: 'Billing', step: 'billing' },
-  { name: 'Checkout', step: 'checkout' }
-] as const
-
-export function FormProgress({ currentStep, state }: FormProgressProps) {
-  const stepOrder = STEPS.map(s => s.step)
-  const currentIndex = stepOrder.indexOf(currentStep)
-
-  const getStepStatus = (step: FormStep, index: number): StepStatus => {
-    // Previous steps should be completed
-    if (index < currentIndex) {
-      return StepValidators[step].canProceed(state)
-        ? 'completed'
-        : 'invalid'
+export function FormProgress({ currentStep, state }: Props) {
+  const STEPS = React.useMemo(() => {
+    if (state?.region === 'us-east') {
+      return ALL_STEPS.filter(step => step.step !== 'storage')
     }
-    // Current step
-    if (index === currentIndex) {
-      return StepValidators[step].canProceed(state)
-        ? 'valid'
-        : 'pending'
-    }
-    // Future steps
-    return 'pending'
-  }
-
-  const getStepStyles = (status: StepStatus): {
-    circle: string
-    text: string
-  } => {
-    switch (status) {
-      case 'completed':
-        return {
-          circle: 'bg-primary text-primary-foreground',
-          text: 'text-primary font-medium'
-        }
-      case 'invalid':
-        return {
-          circle: 'bg-destructive text-destructive-foreground',
-          text: 'text-destructive font-medium'
-        }
-      case 'valid':
-        return {
-          circle: 'bg-primary text-primary-foreground',
-          text: 'text-primary font-medium'
-        }
-      default:
-        return {
-          circle: 'bg-muted',
-          text: 'text-muted-foreground'
-        }
-    }
-  }
-
-  const StepIndicator = ({ step, index, showName = true }: { 
-    step: FormStep 
-    index: number
-    showName?: boolean
-  }) => {
-    const status = getStepStatus(step, index)
-    const styles = getStepStyles(status)
-    const stepInfo = STEPS.find(s => s.step === step)
-    if (!stepInfo) return null
-
+    return ALL_STEPS
+  }, [state?.region])
+  const isMobile = useIsMobile()
+  const currentIndex = STEPS.findIndex(s => s.step === currentStep)
+  
+  if (isMobile) {
     return (
-      <div className="flex items-center">
-        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${styles.circle}`}>
-          {status === 'completed' ? (
-            <Check className="h-4 w-4" />
-          ) : status === 'invalid' ? (
-            <AlertCircle className="h-4 w-4" />
-          ) : (
-            index + 1
-          )}
+      <div className="mb-6">
+        <div className="flex items-center justify-between px-2">
+          <div className="flex items-center space-x-2">
+            <div className="bg-primary text-primary-foreground w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium">
+              {currentIndex + 1}
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm font-medium text-primary">
+                {STEPS[currentIndex].label}
+              </span>
+              <span className="text-xs text-muted-foreground">
+                Step {currentIndex + 1} of {STEPS.length}
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center space-x-1 text-muted-foreground">
+            {currentIndex > 0 && (
+              <span className="flex items-center">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </span>
+            )}
+            {currentIndex < STEPS.length - 1 && (
+              <span className="flex items-center">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </span>
+            )}
+          </div>
         </div>
-        {showName && (
-          <span className={`ml-2 ${styles.text}`}>{stepInfo.name}</span>
-        )}
       </div>
     )
   }
 
   return (
-    <div className="mb-8">
-      {/* Mobile view - only current step */}
-      <div className="flex md:hidden justify-center">
-        <StepIndicator 
-          step={currentStep} 
-          index={currentIndex} 
-        />
-      </div>
-
-      {/* Desktop view - all steps with dividers */}
-      <div className="hidden md:flex justify-between items-center">
-        {STEPS.map(({ step }, index) => (
-          <div key={step} className="flex items-center">
-            <StepIndicator 
-              step={step} 
-              index={index} 
-              showName={true}
-            />
-            {index < STEPS.length - 1 && (
-              <div className={`h-px w-8 mx-2 ${
-                getStepStatus(step, index) === 'completed' 
-                  ? 'bg-primary' 
-                  : 'bg-border'
-              }`} />
-            )}
-          </div>
-        ))}
+    <div className="mb-8 px-2">      
+      <div className="flex justify-between">
+        {STEPS.map(({ step, label }, index) => {
+          const isCompleted = index < currentIndex
+          const isCurrent = step === currentStep
+          
+          return (
+            <div
+              key={step}
+              className="flex flex-col items-center relative"
+            >
+                <div
+                className={cn(
+                  "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors",
+                  {
+                  "bg-white text-primary": isCurrent,
+                  "bg-purple-500 text-white": isCompleted,
+                  "bg-gray-500 text-white": !isCurrent && !isCompleted
+                  }
+                )}
+                >
+                {index + 1}
+                </div>
+              <span
+                className={cn(
+                  "mt-2 text-xs font-medium text-center transition-colors whitespace-nowrap",
+                  {
+                    "text-primary": isCurrent,
+                    "text-primary/80": isCompleted,
+                    "text-muted-foreground": !isCurrent && !isCompleted
+                  }
+                )}
+              >
+                {label}
+              </span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )

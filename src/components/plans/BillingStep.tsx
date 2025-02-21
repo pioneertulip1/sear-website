@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { StepProps, BillingPeriod, StepValidators, calculatePrice, formatPrice } from './types'
+import { StepProps, BillingPeriod, StepValidators, calculateComponentPrice, formatPrice, RAM_PRICING, CPU_THREAD_PRICING, US_EAST_FIXED } from './types'
 import { ArrowLeft, ArrowRight, AlertTriangle } from 'lucide-react'
 
 interface BillingOptions {
@@ -68,14 +68,32 @@ export function BillingStep({ state, onUpdate, onNext, onBack, isValid = false, 
                   {state.planType.charAt(0).toUpperCase() + state.planType.slice(1)} Plan - {state.region.replace('-', ' ')}
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  {state.ram}GB RAM
+                  {state.ram}GB RAM {state.region === 'us-east' && `($${US_EAST_FIXED.ramPricePerGB.toFixed(2)}/GB)`}
                 </div>
+                {state.region !== 'us-east' && state.cpuThreads && (
+                  <div className="text-sm text-muted-foreground">
+                    {state.cpuThreads} CPU Thread{state.cpuThreads !== '1' ? 's' : ''}
+                  </div>
+                )}
+                {state.region !== 'us-east' && state.storage && (
+                  <div className="text-sm text-muted-foreground">
+                    {state.storage}GB Storage
+                  </div>
+                )}
                 <div className="text-sm text-muted-foreground">
                   {state.billingPeriod === 'monthly' ? 'Monthly billing' : 'Quarterly billing (10% off)'}
                 </div>
               </div>
               <div className="text-xl font-semibold">
-                {formatPrice(calculatePrice(state), 'month')}
+                {formatPrice(calculateComponentPrice(
+                  state.region === 'us-east'
+                    ? RAM_PRICING(state.region, state.ram)
+                    : (
+                      RAM_PRICING(state.region, state.ram) +
+                      (state.cpuThreads ? CPU_THREAD_PRICING[state.cpuThreads] : 0)
+                    ),
+                  state.billingPeriod
+                ), 'month')}
               </div>
             </div>
           </div>

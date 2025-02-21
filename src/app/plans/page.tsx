@@ -5,26 +5,30 @@ import { Card, CardContent } from "@/components/ui/card"
 import { FormProgress } from '@/components/plans/FormProgress'
 import { RegionStep } from '@/components/plans/RegionStep'
 import { PlanStep } from '@/components/plans/PlanStep'
-import { RamStep } from '@/components/plans/RamStep'
-import { BillingStep } from '@/components/plans/BillingStep'
+import ServerTypeStep from '@/components/plans/ServerTypeStep'
+import CPURamStep from '@/components/plans/CPURamStep'
+import StorageStep from '@/components/plans/StorageStep'
 import { CheckoutStep } from '@/components/plans/CheckoutStep'
 import {
   FormStep,
   FormState,
   StepValidators,
-  getNextStep,
   StepProps,
   Region,
   PlanType,
   RAM,
-  BillingPeriod
+  CPUThreads,
+  Storage,
+  ServerType
 } from '@/components/plans/types'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 const STEPS = {
   region: RegionStep,
   plan: PlanStep,
-  ram: RamStep,
-  billing: BillingStep,
+  server: ServerTypeStep,
+  cpuram: CPURamStep,
+  storage: StorageStep,
   checkout: CheckoutStep
 } satisfies Record<FormStep, React.ComponentType<StepProps>>
 
@@ -34,7 +38,10 @@ function getInitialState(): FormState {
     return {
       region: 'india',
       planType: 'budget',
+      serverType: 'PaperMC',
+      cpuThreads: '2',
       ram: '4',
+      storage: '50',
       billingPeriod: 'monthly'
     }
   }
@@ -44,11 +51,15 @@ function getInitialState(): FormState {
   return {
     region: (params.get('region') as Region) || 'india',
     planType: (params.get('plan') as PlanType) || 'budget',
+    serverType: (params.get('server') as ServerType) || 'PaperMC',
+    cpuThreads: (params.get('cpu') as CPUThreads) || '2',
     ram: (params.get('ram') as RAM) || '4',
-    billingPeriod: (params.get('billing') as BillingPeriod) || 'monthly'
+    storage: (params.get('storage') as Storage) || '50',
+    billingPeriod: (params.get('billing') as 'monthly' | 'quarterly') || 'monthly'
   }
 }
 
+// Get initial step from URL or start at region
 function getInitialStep(): FormStep {
   if (typeof window === 'undefined') return 'region'
   const params = new URLSearchParams(window.location.search)
@@ -56,7 +67,11 @@ function getInitialStep(): FormStep {
   return step && Object.keys(STEPS).includes(step) ? step : 'region'
 }
 
+// Define step order for navigation
+const STEP_ORDER: FormStep[] = ['region', 'plan', 'server', 'cpuram', 'storage', 'checkout']
+
 export default function PlansPage() {
+  const isMobile = useIsMobile()
   const [step, setStep] = React.useState<FormStep>(getInitialStep)
   const [state, setState] = React.useState<FormState>(getInitialState)
 
@@ -66,7 +81,10 @@ export default function PlansPage() {
     params.set('step', step)
     if (state.region) params.set('region', state.region)
     if (state.planType) params.set('plan', state.planType)
+    if (state.serverType) params.set('server', state.serverType)
+    if (state.cpuThreads) params.set('cpu', state.cpuThreads)
     if (state.ram) params.set('ram', state.ram)
+    if (state.storage) params.set('storage', state.storage)
     if (state.billingPeriod) params.set('billing', state.billingPeriod)
 
     window.history.replaceState(
@@ -95,17 +113,36 @@ export default function PlansPage() {
   }
 
   const handleNext = () => {
-    const nextStep = getNextStep(step, state)
+    const currentIndex = STEP_ORDER.indexOf(step)
+    
+    if (currentIndex === -1 || !StepValidators[step].canProceed(state)) {
+      return
+    }
+
+    // Skip storage step for US East
+    if (state.region === 'us-east' && STEP_ORDER[currentIndex + 1] === 'storage') {
+      setStep('checkout')
+      return
+    }
+
+    const nextStep = STEP_ORDER[currentIndex + 1]
     if (nextStep) {
       setStep(nextStep)
+      // Scroll to top on mobile when changing steps
+      if (isMobile) {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     }
   }
 
   const handleBack = () => {
-    const stepOrder: FormStep[] = ['region', 'plan', 'ram', 'billing', 'checkout']
-    const currentIndex = stepOrder.indexOf(step)
+    const currentIndex = STEP_ORDER.indexOf(step)
     if (currentIndex > 0) {
-      setStep(stepOrder[currentIndex - 1])
+      setStep(STEP_ORDER[currentIndex - 1])
+      // Scroll to top on mobile when changing steps
+      if (isMobile) {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
     }
   }
 
@@ -115,14 +152,14 @@ export default function PlansPage() {
   const availableOptions = StepValidators[step].getAvailableOptions(state)
 
   return (
-    <main className="min-h-screen flex items-center justify-center py-8">
-      <div className="container px-4 sm:px-6">
+    <main className="min-h-screen flex items-start md:items-center justify-center py-4 md:py-8 bg-background">
+      <div className="container px-0 md:px-6 mx-auto">
         <div className="flex flex-col items-center">
-          <h1 className="text-3xl sm:text-4xl font-bold text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl md:text-4xl font-bold text-center mb-4 md:mb-8 px-4 text-foreground">
             Choose Your Hosting Plan
           </h1>
-          <Card className="inline-block w-full max-w-[800px]">
-            <CardContent className="p-6 sm:p-8">
+          <Card className="w-full md:max-w-[800px] rounded-none md:rounded-lg shadow-sm md:shadow bg-card">
+            <CardContent className="p-4 md:p-8">
               <FormProgress currentStep={step} state={state} />
               <StepComponent
                 state={state}

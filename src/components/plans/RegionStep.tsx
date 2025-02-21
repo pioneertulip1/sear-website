@@ -57,7 +57,7 @@ export function RegionStep({ state, onUpdate, onNext, isValid = false, available
           return (
             <Card 
               key={value} 
-              className={`cursor-pointer transition-colors ${
+              className={`cursor-pointer ${
                 state.region === value ? 'border-primary' : ''
               }`}
             >

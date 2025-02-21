@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { StepProps, PlanType, PLAN_SPECS, StepValidators, PRICING_PER_GB, formatPrice } from './types'
+import { StepProps, PlanType, PLAN_SPECS, StepValidators } from './types'
 import { ArrowLeft, ArrowRight, AlertTriangle } from 'lucide-react'
 
 type PlanInfo = {
@@ -35,14 +35,8 @@ export function PlanStep({ state, onUpdate, onNext, onBack, isValid = false, ava
     }
   }, [state, onUpdate])
 
-  const getSpecs = React.useCallback((type: PlanType) => {
-    const defaultSpecs = {
-      cpu: '-',
-      cores: '-',
-      storage: '-'
-    }
-    
-    return PLAN_SPECS[state.region]?.[type] ?? defaultSpecs
+  const getCPUSpec = React.useCallback((type: PlanType) => {
+    return PLAN_SPECS[state.region]?.[type]?.cpu ?? '-'
   }, [state.region])
 
   return (
@@ -55,11 +49,11 @@ export function PlanStep({ state, onUpdate, onNext, onBack, isValid = false, ava
         className="grid grid-cols-1 gap-4"
       >
         {availablePlans.map((type) => {
-          const specs = getSpecs(type)
+          const cpuSpec = getCPUSpec(type)
           return (
             <Card 
               key={type} 
-              className={`cursor-pointer transition-colors ${
+              className={`${
                 state.planType === type ? 'border-primary' : ''
               }`}
             >
@@ -71,15 +65,10 @@ export function PlanStep({ state, onUpdate, onNext, onBack, isValid = false, ava
                       <div className="font-medium text-lg">
                         {getPlanLabel(type)}
                       </div>
-                      <div className="space-y-1 text-sm text-muted-foreground">
-                        <p>{specs.cpu}</p>
-                        <p>{specs.cores}</p>
-                        <p>{specs.storage}</p>
+                      <div className="text-sm text-muted-foreground">
+                        {cpuSpec}
                       </div>
                     </Label>
-                  </div>
-                  <div className="text-right md:min-w-[120px] text-lg font-medium">
-                    {formatPrice(PRICING_PER_GB[state.region]?.[type] || 0, 'gb')}
                   </div>
                 </div>
               </CardContent>
@@ -105,7 +94,7 @@ export function PlanStep({ state, onUpdate, onNext, onBack, isValid = false, ava
           onClick={onNext}
           disabled={!isValid}
         >
-          <span className="hidden md:inline">Continue to RAM Selection</span>
+          <span className="hidden md:inline">Continue to Server Type</span>
           <span className="md:hidden">Continue</span>
           <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
