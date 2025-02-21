@@ -47,6 +47,24 @@ export const SERVER_TYPES: ServerType[] = [
 ]
 
 // Pricing
+export const getCPUThreadPrice = (region: Region, planType: PlanType, threads: CPUThreads): number => {
+  const basePrice = 3.75; // Base price per thread for Budget Asia
+  const threadCount = Number(threads);
+
+  if (region === 'us-east') {
+    return 0; // US East has fixed pricing with no per-thread cost
+  }
+
+  // Budget+ Asia regions have higher per-thread pricing
+  if (planType === 'budget+') {
+    return threadCount * 4.75;
+  }
+
+  // Budget Asia regions use base pricing
+  return threadCount * basePrice;
+}
+
+// Base CPU thread pricing for reference
 export const CPU_THREAD_PRICING: Record<CPUThreads, number> = {
   '1': 3.75,
   '2': 7.50,
@@ -64,25 +82,16 @@ export const US_EAST_FIXED = {
   ramPricePerGB: 0.75
 }
 
-export const RAM_PRICING = (region: Region, ram: RAM): number => {
+export const RAM_PRICING = (region: Region, ram: RAM, planType: PlanType = 'budget'): number => {
+  const ramAmount = Number(ram);
+  
   if (region === 'us-east') {
-    return Number(ram) * US_EAST_FIXED.ramPricePerGB
+    return ramAmount * US_EAST_FIXED.ramPricePerGB;
   }
 
-  const prices: Record<RAM, number> = {
-    '2': 3.00,
-    '3': 3.50,
-    '4': 4.00,
-    '5': 5.00,
-    '6': 6.00,
-    '7': 7.00,
-    '8': 8.00,
-    '10': 10.00,
-    '12': 12.00,
-    '16': 16.00,
-    '20': 20.00
-  }
-  return prices[ram]
+  // Asia regions (India/Singapore) have plan-specific pricing
+  const pricePerGB = planType === 'budget+' ? 1.25 : 1;
+  return ramAmount * pricePerGB;
 }
 
 export const STORAGE_PRICING: Record<Storage, number> = {

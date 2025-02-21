@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { StepProps, BillingPeriod, StepValidators, calculateComponentPrice, formatPrice, RAM_PRICING, CPU_THREAD_PRICING, US_EAST_FIXED } from './types'
+import { StepProps, BillingPeriod, StepValidators, calculateComponentPrice, formatPrice, RAM_PRICING, getCPUThreadPrice, US_EAST_FIXED } from './types'
 import { ArrowLeft, ArrowRight, AlertTriangle } from 'lucide-react'
 
 interface BillingOptions {
@@ -87,10 +87,10 @@ export function BillingStep({ state, onUpdate, onNext, onBack, isValid = false, 
               <div className="text-xl font-semibold">
                 {formatPrice(calculateComponentPrice(
                   state.region === 'us-east'
-                    ? RAM_PRICING(state.region, state.ram)
+                    ? RAM_PRICING(state.region, state.ram, state.planType)
                     : (
-                      RAM_PRICING(state.region, state.ram) +
-                      (state.cpuThreads ? CPU_THREAD_PRICING[state.cpuThreads] : 0)
+                      RAM_PRICING(state.region, state.ram, state.planType) +
+                      (state.cpuThreads ? getCPUThreadPrice(state.region, state.planType, state.cpuThreads) : 0)
                     ),
                   state.billingPeriod
                 ), 'month')}

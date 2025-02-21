@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Button } from "@/components/ui/button"
-import { StepProps, formatPrice, CPU_THREAD_PRICING, RAM_PRICING, STORAGE_PRICING, generateCheckoutUrl, calculateComponentPrice } from "./types"
+import { StepProps, formatPrice, RAM_PRICING, STORAGE_PRICING, generateCheckoutUrl, calculateComponentPrice, getCPUThreadPrice } from "./types"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -23,12 +23,12 @@ export function CheckoutStep({ state, onUpdate, onBack }: StepProps) {
     ...(isUSEast ? [] : [
       {
         label: `CPU (${state.cpuThreads} Thread${state.cpuThreads === '1' ? '' : 's'})`,
-        monthlyPrice: state.cpuThreads ? CPU_THREAD_PRICING[state.cpuThreads] : 0
+        monthlyPrice: state.cpuThreads ? getCPUThreadPrice(state.region, state.planType, state.cpuThreads) : 0
       }
     ]),
     {
       label: `RAM (${state.ram}GB)${isUSEast ? ' ($0.75/GB)' : ''}`,
-      monthlyPrice: RAM_PRICING(state.region, state.ram)
+      monthlyPrice: RAM_PRICING(state.region, state.ram, state.planType)
     },
     ...(isUSEast ? [] : [
       {
