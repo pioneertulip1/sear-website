@@ -37,7 +37,7 @@ export function HeroSection() {
                 Get Started
               </Button>
             </Link>
-            <Link href="https://discord.gg/sear">
+            <Link href="https://discord.gg/s4MZumySeP">
               <Button size="lg" variant="discord" className="gap-2">
                 <MessageSquareMore className="h-5 w-5" />
                 Join Discord
