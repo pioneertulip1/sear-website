@@ -16,11 +16,11 @@ export default function CPURamStep({ state, onUpdate, onNext, onBack }: StepProp
   const ramIndex = availableRAMOptions.indexOf(state.ram || availableRAMOptions[0])
 
   // Set fixed CPU threads for US East region
-  React.useEffect(() => {
+  /*React.useEffect(() => {
     if (state.region === 'us-east' && state.cpuThreads !== US_EAST_FIXED.cpuThreads) {
       onUpdate({ cpuThreads: US_EAST_FIXED.cpuThreads })
     }
-  }, [state.region, state.cpuThreads, onUpdate])
+  }, [state.region, state.cpuThreads, onUpdate])*/
 
   const handleCPUChange = (value: number[]) => {
     const threads = CPU_OPTIONS[value[0]]
@@ -34,9 +34,9 @@ export default function CPURamStep({ state, onUpdate, onNext, onBack }: StepProp
 
   const cpuPrice = state.cpuThreads ? getCPUThreadPrice(state.region, state.planType, state.cpuThreads) : 0
   const ramPrice = state.ram && state.region ? RAM_PRICING(state.region, state.ram, state.planType) : 0
-  const totalPrice = state.region === 'us-east' ? ramPrice : cpuPrice + ramPrice
+  const totalPrice = state.region === '' ? ramPrice : cpuPrice + ramPrice
 
-  const showCPUSlider = state.region !== 'us-east'
+  const showCPUSlider = state.region !== ''
 
   return (
     <div className="space-y-6 md:space-y-8">
